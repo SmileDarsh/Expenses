@@ -1,0 +1,67 @@
+<resources>
+    <string name="app_name">Expenses</string>
+    <string name="drawer_opened" translatable="false">drawer_opened</string>
+    <string name="drawer_closed" translatable="false">drawer_closed</string>
+    <string name="home">Home</string>
+    <string name="add_expenses">Add Expenses</string>
+    <string name="expenses_details">Expenses Details</string>
+    <string name="payment">Payment</string>
+    <string name="add_payment">Add Payment</string>
+    <string name="add_value">Value</string>
+    <string name="choose_payment">choose Payment</string>
+    <string name="new_payment">New Payment</string>
+    <string name="add_wallet">Add Wallet</string>
+    <string name="wallet">Wallet</string>
+    <string name="wallet_text">you need to first fill your wallet</string>
+    <string name="user_name">User Name</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="logout">Logout</string>
+    <string name="tap_to_log_in">Tap to Log In</string>
+    <string name="new_account">Create New Account</string>
+    <string name="add_successful">add successful</string>
+    <string name="remove_successful">item has removed</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- validate Toasts-->
+    <string name="toast_empty_field">This field can\'t be empty!</string>
+    <string name="toast_user_exist">This User already Exist</string>
+    <string name="toast_payment_exist">This Payment already Exist</string>
+    <string name="toast_payment_not_exist">This Payment is no\'t Exist</string>
+    <string name="toast_accept_permission">You must Accept Permission First</string>
+    <string name="toast_user_deleted">Are you sure you want delete all date for this user</string>
+    <string name="toast_password_less_5">Password must be at least 5 characters long!</string>
+    <string name="toast_confirm_password">Passwords don\'t match!</string>
+    <string name="toast_password_error">Invalid password!</string>
+    <string name="toast_email_error">Invalid email address!</string>
+    <string name="toast_mobile_error">Invalid mobile number!</string>
+    <string name="toast_mobile_not_11">Mobile number must be 11 digits long!</string>
+    <string name="toast_webservice_error">Error sending request, please try again</string>
+    <string name="toast_no_cost_found">No Cost found for this Month</string>
+    <string name="toast_month">Invalid month</string>
+    <string name="toast_date_error">This Date is already exist</string>
+    <string name="save">Save</string>
+    <string name="remove">Remove</string>
+    <string name="add">Add</string>
+    <string name="choose_month">Choose Month</string>
+    <string name="total">Total</string>
+    <string name="cost">Cost</string>
+    <string name="egp">EGP</string>
+
+    <array name="months">
+        <item>Jan</item>
+        <item>Feb</item>
+        <item>Mar</item>
+        <item>Apr</item>
+        <item>May</item>
+        <item>Jun</item>
+        <item>Jul</item>
+        <item>Aug</item>
+        <item>Sep</item>
+        <item>Oct</item>
+        <item>Nov</item>
+        <item>Dec</item>
+    </array>
+</resources>

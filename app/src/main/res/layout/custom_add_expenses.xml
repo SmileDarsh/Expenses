@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="16dp">
+
+    <EditText
+            android:id="@+id/etPaymentValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:imeOptions="actionDone"
+            android:gravity="center"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:hint="@string/add_value"
+            android:layout_weight="1"
+            android:background="@drawable/rectangle_background"
+            tools:ignore="AutoFill,LabelFor"/>
+
+    <TextView
+            android:id="@+id/tvPaymentName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+            tools:text="مواصلات شغل"/>
+</LinearLayout>

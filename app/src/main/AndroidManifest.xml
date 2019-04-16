@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools" package="com.sict.expenses">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <application
+            android:allowBackup="true"
+            android:icon="@drawable/logo"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme"
+            tools:ignore="AllowBackup">
+        <activity android:name=".activities.SplashActivity"
+                  android:configChanges="orientation|keyboardHidden|screenSize"
+                  android:theme="@style/FullscreenTheme"
+                  android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activities.MainActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".activities.WelcomeActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/FullscreenTheme"/>
+        <activity android:name=".activities.LoginActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/FullscreenTheme"/>
+        <activity android:name=".activities.RegisterActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/FullscreenTheme"/>
+        <activity android:name=".activities.ExpensesDetailsActivity"
+                  android:windowSoftInputMode="stateAlwaysHidden"
+                  android:parentActivityName=".activities.ExpensesDetailsActivity"
+                  android:screenOrientation="portrait"/>
+    </application>
+
+</manifest>

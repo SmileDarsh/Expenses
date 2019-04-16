@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+
+    <View
+            android:id="@+id/vTop"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/black"/>
+
+    <View
+            android:id="@+id/vBottom"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/black"/>
+
+    <View
+            android:id="@+id/vEnd"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/vBottom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/black"/>
+
+    <View
+            android:id="@+id/vStart"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/vBottom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/black"/>
+
+    <TextView
+            android:id="@+id/tvKeyOne"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/vEnd"
+            app:layout_constraintBottom_toTopOf="@id/vBottom"
+            app:layout_constraintStart_toEndOf="@id/vCenterOne"
+            android:textColor="@color/black"
+            android:text="@string/total"/>
+
+    <View
+            android:id="@+id/vCenterOne"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/vBottom"
+            app:layout_constraintStart_toEndOf="@id/tvValueOne"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvKeyOne"
+            android:background="@color/black"/>
+
+    <TextView
+            android:id="@+id/tvValueOne"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/vBottom"
+            app:layout_constraintStart_toEndOf="@id/vStart"
+            app:layout_constraintEnd_toStartOf="@id/vCenterOne"
+            android:textColor="@color/black"
+            tools:text="645 EGP"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

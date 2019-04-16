@@ -1,0 +1,62 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.androidCompileSdkVersion
+    defaultConfig {
+        applicationId "com.sict.expenses"
+        minSdkVersion rootProject.ext.androidMinSdkVersion
+        targetSdkVersion rootProject.ext.androidTargetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+def depend = rootProject.ext.projectDepend
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation depend.kotlinDep
+    androidTestImplementation depend.androidTestRunner
+    androidTestImplementation depend.androidTestEspressoCore
+
+    implementation depend.kotlinDep
+    implementation depend.appcomapt
+    implementation depend.designSupport
+    implementation depend.cardView
+    implementation depend.constraintLayour
+    implementation depend.circleimageview
+    implementation depend.glide
+
+    implementation depend.roomRuntime
+    kapt depend.roomCompiler
+    implementation depend.roomPaging
+
+    implementation depend.lifecycleRuntime
+    implementation depend.lifecycleExtensions
+    implementation depend.lifecycleReactivestreams
+
+
+    implementation depend.gsonGson
+    implementation depend.retrofit
+    implementation depend.convertergGson
+    implementation depend.okhttp
+    implementation depend.okhttpLogging
+
+    implementation depend.rxKotlin
+    implementation depend.rxAndroid
+
+    implementation depend.eventBus
+}

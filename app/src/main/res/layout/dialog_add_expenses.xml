@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <TextView
+            android:id="@+id/tvDate"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:layout_marginTop="8dp"
+            tools:text="Mon , 04-04-2019"
+            android:background="@drawable/rectangle_background"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/spPayments"
+            app:layout_constraintVertical_chainStyle="packed"/>
+
+    <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spPayments"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/tvDate"
+            app:layout_constraintStart_toStartOf="@id/etPaymentValue"
+            app:layout_constraintEnd_toEndOf="@id/etPaymentValue"
+            app:layout_constraintBottom_toTopOf="@id/etPaymentName"/>
+
+    <EditText
+            android:id="@+id/etPaymentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:hint="@string/payment"
+            android:inputType="textPersonName"
+            android:imeOptions="actionNext"
+            android:background="@drawable/rectangle_background"
+            app:layout_constraintBottom_toTopOf="@id/etPaymentValue"
+            app:layout_constraintTop_toBottomOf="@id/spPayments"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="AutoFill,LabelFor"/>
+
+    <EditText
+            android:id="@+id/etPaymentValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:inputType="numberDecimal"
+            android:imeOptions="actionDone"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:hint="@string/add_value"
+            android:background="@drawable/rectangle_background"
+            app:layout_constraintTop_toBottomOf="@id/etPaymentName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/btnAdd"
+            tools:ignore="AutoFill,LabelFor"/>
+
+    <Button
+            android:id="@+id/btnAdd"
+            style="@style/ButtonBlue"
+            android:text="@string/add_expenses"
+            app:layout_constraintTop_toBottomOf="@id/etPaymentValue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/drawerLayout"
+        tools:context="com.sict.expenses.activities.MainActivity">
+
+    <!-- Main Content (Main Screen)-->
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <include
+                android:id="@+id/mainContent"
+                layout="@layout/content_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+    </RelativeLayout>
+
+    <!-- Drawer panel -->
+    <LinearLayout
+            android:id="@+id/drawerPane"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@color/colorAccent"
+            android:orientation="vertical">
+
+        <FrameLayout
+                android:id="@+id/fLogo"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg">
+
+            <ImageView
+                    android:id="@+id/ivColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/black"
+                    android:alpha="0.7"
+                    tools:ignore="ContentDescription"/>
+            <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/logo"
+                    tools:ignore="ContentDescription"/>
+        </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/navList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+    </LinearLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
