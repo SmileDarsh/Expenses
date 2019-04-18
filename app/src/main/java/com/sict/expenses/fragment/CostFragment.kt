@@ -11,7 +11,7 @@ import com.sict.expenses.R
 import com.sict.expenses.adapter.CostAdapter
 import com.sict.expenses.base.BaseFragment
 import com.sict.expenses.base.CostViewModelFactory
-import com.sict.expenses.helper.Logging
+import com.sict.expenses.helper.PieChartShow
 import com.sict.expenses.model.Cost
 import com.sict.expenses.model.Payment
 import com.sict.expenses.viewModel.CostViewModel
@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_cost.*
  */
 class CostFragment : BaseFragment() {
     private lateinit var vm: CostViewModel
+    private lateinit var mPieChart: PieChartShow
     private val mPaymentsList = mutableListOf<Payment>()
     private val mAdapter = CostAdapter()
     private var mPaymentId = 0
@@ -40,6 +41,8 @@ class CostFragment : BaseFragment() {
         initExpensesRecyclerView()
 
         startListening()
+        mPieChart = PieChartShow(pcCosts, mUserId)
+        mPieChart.hidePieChart()
     }
 
     private fun initExpensesRecyclerView() {

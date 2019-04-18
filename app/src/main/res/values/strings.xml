@@ -24,6 +24,7 @@
     <string name="remove_successful">item has removed</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="expenses_month">%1$s Expenses</string>
 
     <!-- validate Toasts-->
     <string name="toast_empty_field">This field can\'t be empty!</string>

@@ -12,9 +12,15 @@ import com.sict.expenses.model.Cost
 interface CostDao {
     @Query(
         """SELECT cost.* , user.* FROM cost INNER JOIN user ON fkCostUserId = userId WHERE fkPaymentId = :paymentId
-            AND costMonth = userMonth AND costYear = userYear AND fkCostUserId = :userId AND costActive = 1 ORDER BY costDay ASC"""
+            AND fkCostUserId = :userId AND costMonth = userMonth AND costYear = userYear AND costActive = 1 ORDER BY costDay ASC"""
     )
     fun getAllCost(userId: Int, paymentId: Int): DataSource.Factory<Int, Cost>
+
+    @Query(
+        """SELECT cost.* , user.* FROM cost INNER JOIN user ON fkCostUserId = userId WHERE fkPaymentId = :paymentId
+            AND fkCostUserId = :userId AND costMonth = userMonth AND costYear = userYear AND costActive = 1 ORDER BY costDay ASC"""
+    )
+    fun getAllCostChart(userId: Int, paymentId: Int): MutableList<Cost>
 
     @Query("SELECT * FROM cost")
     fun getAllCost(): MutableList<Cost>
