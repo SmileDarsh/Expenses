@@ -15,6 +15,12 @@ interface PaymentsDao {
     @Query("SELECT * FROM payment WHERE paymentActive = 1 ORDER BY name DESC ")
     fun getAllPayments(): MutableList<Payment>
 
+    @Query(
+        """SELECT payment.* , fkPayments.* FROM payment INNER JOIN fkPayments ON fkUser = :userId
+        WHERE fkPayment = paymentId AND  paymentActive = 1 ORDER BY name DESC """
+    )
+    fun getAllPaymentsByUser(userId: Int): MutableList<Payment>
+
     @Query("SELECT COUNT(*) FROM payment WHERE name = :name")
     fun isPayment(name: String): Int
 

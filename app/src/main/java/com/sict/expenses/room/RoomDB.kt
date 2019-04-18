@@ -10,14 +10,15 @@ import com.sict.expenses.model.*
  * Created by µðšţãƒâ ™ on 4/3/2019.
  * ->
  */
-@Database(entities = [User::class, Expenses::class, Cost::class, Payment::class , Wallet::class], version = 1, exportSchema = false)
+@Database(entities = [User::class, Expenses::class, Cost::class, Payment::class , Wallet::class , FKPayment::class], version = 1,
+    exportSchema = false)
 abstract class RoomDB : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun expensesDao(): ExpensesDao
     abstract fun costDao(): CostDao
-    abstract fun expensesCostDao(): ExpensesCostDao
     abstract fun paymentsDao(): PaymentsDao
     abstract fun walletDao(): WalletDao
+    abstract fun fkPaymentDao(): FKPaymentDao
 
     companion object {
         private var INSTANCE: RoomDB? = null

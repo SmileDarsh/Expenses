@@ -11,11 +11,10 @@ import com.sict.expenses.model.Cost
 @Dao
 interface CostDao {
     @Query(
-        """SELECT cost.* , expenses.* , user.* , payment.* FROM  cost INNER JOIN expenses ON expensesId = pExpensesId INNER JOIN user
-            ON costMonth = userMonth AND costYear = userYear INNER JOIN payment ON paymentId = :paymentId
-            WHERE fkUserId = :userId AND costActive = 1 ORDER BY costDay ASC"""
+        """SELECT cost.* , user.* FROM cost INNER JOIN user ON fkCostUserId = userId WHERE fkPaymentId = :paymentId
+            AND costMonth = userMonth AND costYear = userYear AND fkCostUserId = :userId AND costActive = 1 ORDER BY costDay ASC"""
     )
-    fun getAllCost(userId: Int , paymentId: Int): DataSource.Factory<Int, Cost>
+    fun getAllCost(userId: Int, paymentId: Int): DataSource.Factory<Int, Cost>
 
     @Query("SELECT * FROM cost")
     fun getAllCost(): MutableList<Cost>
@@ -31,6 +30,11 @@ interface CostDao {
 
     @Query("SELECT * FROM cost WHERE cost.pExpensesId = :parentId AND fkPaymentId = :paymentId")
     fun getCost(parentId: Int, paymentId: Int): Cost
+
+    @Query(
+        """SELECT * FROM cost WHERE fkCostUserId = :userId AND fkPaymentId = :paymentId AND costDay = 32"""
+    )
+    fun getCostByUser(userId: Int, paymentId: Int): Cost
 
     @Insert
     fun insertCost(cost: Cost): Long

@@ -15,7 +15,7 @@ import com.sict.expenses.model.Wallet
 import com.sict.expenses.popupDialog.AddWalletDialog
 import com.sict.expenses.viewModel.ExpensesViewModel
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.fragment_home.view.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -40,10 +40,13 @@ class HomeFragment : BaseFragment() {
             activity!!, HomeViewModelFactory(activity!!.application, mUserId)
         ).get(ExpensesViewModel::class.java)
 
-        vm.expensesList.observe(this, Observer {
-            mAdapter.submitList(it)
-        })
-        initExpensesRecyclerView(view.rvExpenses)
+        activity!!.runOnUiThread {
+            vm.expensesList.observe(this, Observer {
+                checkList(it.size)
+                mAdapter.submitList(it)
+            })
+            initExpensesRecyclerView()
+        }
     }
 
     override fun onResume() {
@@ -73,8 +76,8 @@ class HomeFragment : BaseFragment() {
         }.start()
     }
 
-    private fun initExpensesRecyclerView(recycler: RecyclerView) {
-        recycler.apply {
+    private fun initExpensesRecyclerView() {
+        rvExpenses.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
             adapter = mAdapter
@@ -89,5 +92,12 @@ class HomeFragment : BaseFragment() {
                 }
             })
         }
+    }
+
+    private fun checkList(size: Int) {
+        if (size == 0)
+            tvNoData.visibility = View.VISIBLE
+        else
+            tvNoData.visibility = View.GONE
     }
 }

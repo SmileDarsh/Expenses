@@ -12,6 +12,7 @@ import java.io.Serializable
 @Entity(tableName = "cost")
 data class Cost(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "costId") var id: Int? = null,
+    @ColumnInfo(name = "fkCostUserId") var userId: Int = 0,
     @ColumnInfo(name = "fkPaymentId") var paymentId: Int = 0,
     var pExpensesId: Int = 0,
     var name: String = "",

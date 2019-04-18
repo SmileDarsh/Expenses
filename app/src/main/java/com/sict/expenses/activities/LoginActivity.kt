@@ -71,14 +71,15 @@ class LoginActivity : BaseActivity() {
 
     private fun onLogin() {
         if (validate()) {
-            if (mWallet!!.value == 0.0) {
+            if (mWallet != null && mWallet!!.value > 0.0) {
+                goToMainActivity()
+            } else {
                 val addWalletDialog = AddWalletDialog()
                 val bundle = Bundle()
                 bundle.putSerializable("userId", mUser.id)
                 addWalletDialog.arguments = bundle
                 addWalletDialog.show(supportFragmentManager, "login")
-            } else
-                goToMainActivity()
+            }
         }
     }
 

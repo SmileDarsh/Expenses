@@ -12,10 +12,7 @@ import com.sict.expenses.R
 import com.sict.expenses.base.BaseDialogFragment
 import com.sict.expenses.helper.Logging
 import com.sict.expenses.helper.Utils
-import com.sict.expenses.model.Cost
-import com.sict.expenses.model.Expenses
-import com.sict.expenses.model.Payment
-import com.sict.expenses.model.User
+import com.sict.expenses.model.*
 import kotlinx.android.synthetic.main.dialog_add_expenses.view.*
 import org.greenrobot.eventbus.EventBus
 import java.util.*
@@ -151,9 +148,9 @@ class AddExpensesDialog : BaseDialogFragment() {
         Thread {
             mPaymentId = if (mEtPaymentName.text.toString().trim().isNotEmpty() &&
                 mRoomDB.paymentsDao().isPayment(mEtPaymentName.text.toString().trim()) == 0
-            )
-                mRoomDB.paymentsDao().insertPayment(Payment(name = mEtPaymentName.text.toString())).toInt()
-            else {
+            ) {
+                mRoomDB.paymentsDao().insertPayment(Payment(name = mEtPaymentName.text.toString().trim())).toInt()
+            } else {
                 if (mSpPayment.selectedItemPosition == 0) {
                     mRoomDB.paymentsDao().getPayment(mEtPaymentName.text.toString().trim()).id!!
                 } else {
@@ -194,6 +191,7 @@ class AddExpensesDialog : BaseDialogFragment() {
     private fun addNewCost() {
         val expenses = mRoomDB.expensesDao().getExpensesId(mUser.id!!, mTvDate.text.toString())
         val cost = Cost(
+            userId = expenses.userId,
             pExpensesId = expenses.id!!, name = getCost(),
             paymentId = mPaymentId,
             price = mEtPaymentValue.text.toString().toDouble(),
@@ -203,6 +201,8 @@ class AddExpensesDialog : BaseDialogFragment() {
             year = expenses.year
         )
         costNameIsReadyExist(expenses.id!!, cost)
+        if (mRoomDB.fkPaymentDao().isNotExist(mUser.id!!, mPaymentId) == 0)
+            mRoomDB.fkPaymentDao().insertFKPayment(FKPayment(userId = mUser.id!!, paymentId = mPaymentId))
     }
 
     private fun costNameIsReadyExist(parentId: Int, cost: Cost) {

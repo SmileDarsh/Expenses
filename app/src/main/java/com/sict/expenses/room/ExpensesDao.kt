@@ -14,9 +14,11 @@ import com.sict.expenses.model.Expenses
 @Dao
 interface ExpensesDao {
     @Query(
-        """SELECT expenses.* , user.* FROM expenses INNER JOIN user ON expensesMonth = userMonth AND
-            expensesYear = userYear WHERE fkUserId = :userId ORDER BY expensesDate ASC""")
-    fun getAllExpenses(userId : Int): DataSource.Factory<Int, Expenses>
+        """SELECT expenses.* , user.* FROM expenses INNER JOIN user
+            ON fkUserId = userId WHERE fkUserId = :userId AND expensesMonth = userMonth AND expensesYear = userYear
+            ORDER BY expensesDate ASC"""
+    )
+    fun getAllExpenses(userId: Int): DataSource.Factory<Int, Expenses>
 
     @Query("SELECT * FROM expenses")
     fun getAllExpensess(): MutableList<Expenses>

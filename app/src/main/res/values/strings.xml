@@ -39,13 +39,15 @@
     <string name="toast_mobile_error">Invalid mobile number!</string>
     <string name="toast_mobile_not_11">Mobile number must be 11 digits long!</string>
     <string name="toast_webservice_error">Error sending request, please try again</string>
-    <string name="toast_no_cost_found">No Cost found for this Month</string>
+    <string name="toast_no_cost_found">No cost found for this Month</string>
+    <string name="toast_no_expenses_found">No expenses found for this Month</string>
     <string name="toast_month">Invalid month</string>
     <string name="toast_date_error">This Date is already exist</string>
     <string name="save">Save</string>
     <string name="remove">Remove</string>
     <string name="add">Add</string>
     <string name="choose_month">Choose Month</string>
+    <string name="choose">Choose</string>
     <string name="total">Total</string>
     <string name="cost">Cost</string>
     <string name="egp">EGP</string>

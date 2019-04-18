@@ -11,11 +11,11 @@ import com.sict.expenses.R
 import com.sict.expenses.adapter.CostAdapter
 import com.sict.expenses.base.BaseFragment
 import com.sict.expenses.base.CostViewModelFactory
+import com.sict.expenses.helper.Logging
 import com.sict.expenses.model.Cost
 import com.sict.expenses.model.Payment
 import com.sict.expenses.viewModel.CostViewModel
 import kotlinx.android.synthetic.main.fragment_cost.*
-import kotlinx.android.synthetic.main.item_total.*
 
 /**
  * Created by µðšţãƒâ ™ on 4/15/2019.
@@ -54,7 +54,7 @@ class CostFragment : BaseFragment() {
     private fun paymentSpinner() {
         Thread {
             val payments = mutableListOf<CharSequence>()
-            mPaymentsList.addAll(mRoomDB.paymentsDao().getAllPayments())
+            mPaymentsList.addAll(mRoomDB.paymentsDao().getAllPaymentsByUser(mUserId))
             activity!!.runOnUiThread {
                 payments.add(getString(R.string.choose_payment))
                 mPaymentsList.forEach { payments.add(it.name) }
@@ -78,8 +78,16 @@ class CostFragment : BaseFragment() {
     private fun updatePaymentId(position: Int) {
         mPaymentId = mPaymentsList[position - 1].id!!
         Thread {
-            val cost: Cost? = mRoomDB.costDao().getCost(1, mPaymentId)
-            if (cost != null)
+            val cost: Cost? = mRoomDB.costDao().getCostByUser(mUserId, mPaymentId)
+            if (cost == null) {
+                val user = mRoomDB.userDao().getUser(mUserId)
+                mRoomDB.costDao().insertCost(
+                    Cost(
+                        userId = mUserId, day = 32, month = user.month,
+                        year = user.year, paymentId = mPaymentId
+                    )
+                )
+            } else
                 mRoomDB.costDao().updateCost(cost)
             replaceSubscription()
         }.start()
@@ -87,6 +95,7 @@ class CostFragment : BaseFragment() {
 
     private fun startListening() {
         vm.costList!!.observe(this, Observer {
+            checkList(it.size)
             mAdapter.submitList(it)
         })
     }
@@ -96,5 +105,12 @@ class CostFragment : BaseFragment() {
             vm.replaceSubscription(this, mPaymentId)
             startListening()
         }
+    }
+
+    private fun checkList(size: Int) {
+        if (size == 0)
+            tvNoData.visibility = View.VISIBLE
+        else
+            tvNoData.visibility = View.GONE
     }
 }
