@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.sict.expenses.model.Expenses
+import com.sict.expenses.model.ExpensesWallet
 
 /**
  * Created by µðšţãƒâ ™ on 4/3/2019.
@@ -20,8 +21,15 @@ interface ExpensesDao {
     )
     fun getAllExpenses(userId: Int): DataSource.Factory<Int, Expenses>
 
-    @Query("SELECT * FROM expenses")
-    fun getAllExpensess(): MutableList<Expenses>
+    @Query(
+        """SELECT expenses.* , user.* , wallet.* FROM expenses
+            INNER JOIN user ON fkUserId = userId
+            INNER JOIN wallet ON userId = walletUserId
+            WHERE fkUserId = :userId  AND expensesMonth = userMonth AND expensesYear = userYear
+            AND userMonth = walletMonth AND userYear = walletYear
+            ORDER BY expensesDate ASC"""
+    )
+    fun getAllExpensesNew(userId: Int): DataSource.Factory<Int, ExpensesWallet>
 
     @Query("SELECT * FROM expenses WHERE fkUserId = :userId ORDER BY expensesDate ASC")
     fun getLastExpenses(userId: Int): Expenses

@@ -1,33 +1,34 @@
-package com.sict.expenses.helper
+package com.sict.expenses.helper.Charts
 
 import android.app.Activity
 import android.graphics.Color
 import android.view.View
+import androidx.fragment.app.FragmentManager
 import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.MPPointF
 import com.sict.expenses.R
+import com.sict.expenses.helper.OpenDialog.openCostDetails
 import com.sict.expenses.model.Cost
-import com.sict.expenses.model.Payment
-import com.sict.expenses.model.User
-import com.sict.expenses.room.RoomDB
 import java.util.*
 
 /**
  * Created by µðšţãƒâ ™ on 4/18/2019.
  * ->
  */
-class PieChartShow(private val mPieChart: PieChart, private val mUserId: Int) {
-    private var mRoomDB: RoomDB = RoomDB.getInstance(mPieChart.context)!!
-    private lateinit var mUser: User
-
+class PieChartShow(
+    private val mPieChart: PieChart, private val mAllCost: MutableList<Cost>,
+    private val mChildFragmentManager: FragmentManager
+) {
     init {
         initChart()
-        initThread()
     }
 
     private fun initChart() {
@@ -43,25 +44,28 @@ class PieChartShow(private val mPieChart: PieChart, private val mUserId: Int) {
         mPieChart.transparentCircleRadius = 61f
         mPieChart.setDrawCenterText(true)
         mPieChart.rotationAngle = 0f
-        mPieChart.isRotationEnabled = true
+        mPieChart.isRotationEnabled = false
         mPieChart.isHighlightPerTapEnabled = true
+        mPieChart.setDrawEntryLabels(false)
+        animateY()
+
+        mPieChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+            override fun onNothingSelected() {
+            }
+
+            override fun onValueSelected(e: Entry?, h: Highlight?) {
+                e as PieEntry
+                val cost = mAllCost.single { it.name == e.label }
+                openCostDetails(cost.userId, cost.paymentId).show(mChildFragmentManager, e.label)
+            }
+        })
     }
 
-    private fun initThread() {
-        Thread {
-            mUser = mRoomDB.userDao().getUser(mUserId)
-            setCenterText()
-            setData()
-        }.start()
-    }
-
-    private fun setCenterText() {
-        (mPieChart.context as Activity).runOnUiThread {
-            mPieChart.centerText = String.format(
-                Locale.getDefault(), mPieChart.context.getString(R.string.expenses_month)
-                , mPieChart.context.resources.getStringArray(R.array.months)[mUser.month]
-            )
-        }
+    private fun setCenterText(month: Int) {
+        mPieChart.centerText = String.format(
+            Locale.getDefault(), mPieChart.context.getString(R.string.expenses_month)
+            , mPieChart.context.resources.getStringArray(R.array.months)[month]
+        )
     }
 
     private fun addCharPieData(data: PieData) {
@@ -72,22 +76,13 @@ class PieChartShow(private val mPieChart: PieChart, private val mUserId: Int) {
         }
     }
 
-    private fun setData() {
-        val entries = mutableListOf<PieEntry>()
-        val allCost = mutableListOf<Cost>()
-        val payments = mRoomDB.paymentsDao().getAllPaymentsByUser(mUserId)
-        var monthTotal = 0.0
-        payments.forEach { payment ->
-            val mCosts = mRoomDB.costDao().getAllCostChart(mUserId, payment.id!!)
-            var total = 0.0
-            mCosts.forEach { cost ->
-                total += cost.price
-            }
-            allCost.add(Cost(name = payment.name, price = total))
-            monthTotal += total
-        }
+    fun setData(monthTotal: Double) {
+        if (monthTotal > 0.0)
+            setCenterText(mAllCost[0].month)
 
-        allCost.forEach {
+        val entries = mutableListOf<PieEntry>()
+
+        mAllCost.forEach {
             entries.add(PieEntry(((it.price / monthTotal) * 100).toFloat(), it.name))
         }
 
@@ -126,11 +121,16 @@ class PieChartShow(private val mPieChart: PieChart, private val mUserId: Int) {
         addCharPieData(data)
     }
 
-    fun hidePieChart(){
+    fun hidePieChart() {
         mPieChart.visibility = View.GONE
     }
 
-    fun showPieChart(){
+    fun showPieChart() {
         mPieChart.visibility = View.VISIBLE
+        animateY()
+    }
+
+    private fun animateY() {
+        mPieChart.animateY(1500)
     }
 }

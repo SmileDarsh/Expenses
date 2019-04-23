@@ -12,60 +12,56 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sict.expenses.R
 import com.sict.expenses.activities.ExpensesDetailsActivity
 import com.sict.expenses.helper.Utils
-import com.sict.expenses.model.Expenses
+import com.sict.expenses.model.ExpensesWallet
 import kotlinx.android.synthetic.main.item_expenses.view.*
 
 /**
  * Created by µðšţãƒâ ™ on 4/4/2019.
  * ->
  */
-private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Expenses>() {
+private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ExpensesWallet>() {
     override fun areItemsTheSame(
-        @NonNull oldExpenses: Expenses, @NonNull newExpenses: Expenses
+        @NonNull oldExpenses: ExpensesWallet, @NonNull newExpenses: ExpensesWallet
     ): Boolean {
-        return oldExpenses.id == newExpenses.id
+        return oldExpenses.expenses.id == newExpenses.expenses.id
     }
 
     override fun areContentsTheSame(
-        @NonNull oldExpenses: Expenses, @NonNull newExpenses: Expenses
+        @NonNull oldExpenses: ExpensesWallet, @NonNull newExpenses: ExpensesWallet
     ): Boolean {
         return oldExpenses == newExpenses
     }
 }
 
-class ExpensesAdapter : PagedListAdapter<Expenses, ExpensesHolder>(DIFF_CALLBACK) {
+class ExpensesAdapter : PagedListAdapter<ExpensesWallet, ExpensesNewHolder>(DIFF_CALLBACK) {
 
-    private var mWallet = 0.0
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpensesNewHolder =
+        ExpensesNewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_expenses, parent, false))
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpensesHolder =
-        ExpensesHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_expenses, parent, false))
+    override fun onBindViewHolder(holder: ExpensesNewHolder, position: Int) = holder.bindView(getItem(position)!!)
 
-    override fun onBindViewHolder(holder: ExpensesHolder, position: Int) = holder.bindView(getItem(position)!!)
-
-    fun setWallet(wallet: Double) {
-        mWallet = wallet
-    }
-
-    override fun submitList(pagedList: PagedList<Expenses>?) {
-        var wa = mWallet
-        pagedList!!.forEach {
-            wa -= it.price
-            it.wallet = wa
+    override fun submitList(pagedList: PagedList<ExpensesWallet>?) {
+        if (pagedList != null && pagedList.size > 0) {
+            var wa = pagedList[0]!!.wallet.value
+            pagedList.forEach {
+                wa -= it.expenses.price
+                it.expenses.wallet = wa
+            }
         }
         super.submitList(pagedList)
     }
 }
 
-class ExpensesHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    fun bindView(expenses: Expenses) {
+class ExpensesNewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    fun bindView(expenses: ExpensesWallet) {
         with(itemView) {
-            tvDate.text = Utils.dateFormat(expenses.date)
-            tvExpenses.text = expenses.price.toString()
-            tvWallet.text = expenses.wallet.toString()
+            tvDate.text = Utils.dateFormat(expenses.expenses.date)
+            tvExpenses.text = expenses.expenses.price.toString()
+            tvWallet.text = expenses.expenses.wallet.toString()
             cvCard.setOnClickListener {
                 context.startActivity(
                     Intent(context, ExpensesDetailsActivity::class.java)
-                        .putExtra("expenses", expenses)
+                        .putExtra("expenses", expenses.expenses)
                 )
             }
         }

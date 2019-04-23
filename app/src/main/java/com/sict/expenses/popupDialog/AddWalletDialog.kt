@@ -100,6 +100,6 @@ class AddWalletDialog : BaseDialogFragment() {
     }
 
     private fun addText(tv: TextView, text: CharSequence) {
-        activity!!.runOnUiThread { tv.setText(text) }
+        activity!!.runOnUiThread { tv.text = text }
     }
 }

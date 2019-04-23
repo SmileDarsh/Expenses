@@ -11,14 +11,14 @@ import com.sict.expenses.base.BaseActivity
 import com.sict.expenses.base.NavigationManager
 import com.sict.expenses.fragment.CostFragment
 import com.sict.expenses.fragment.HomeFragment
+import com.sict.expenses.helper.OpenDialog.openAddExpenses
+import com.sict.expenses.helper.OpenDialog.openChooseMonth
 import com.sict.expenses.helper.TypeReference
 import com.sict.expenses.model.NavMenu
 import com.sict.expenses.model.User
 import com.sict.expenses.model.Wallet
-import com.sict.expenses.popupDialog.AddExpensesDialog
 import com.sict.expenses.popupDialog.AddPaymentDialog
 import com.sict.expenses.popupDialog.AddWalletDialog
-import com.sict.expenses.popupDialog.ChooseMonthDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.greenrobot.eventbus.EventBus
@@ -45,12 +45,7 @@ class MainActivity : BaseActivity() {
         }.start()
 
         fab.setOnClickListener {
-            val addExpensesDialog = AddExpensesDialog()
-            val bundle = Bundle()
-            bundle.putInt("userId", mUser.id!!)
-            bundle.putLong("date", 0L)
-            addExpensesDialog.arguments = bundle
-            addExpensesDialog.show(supportFragmentManager, "addExpenses")
+            openAddExpenses(mUser.id!!, 0L).show(supportFragmentManager, "main")
         }
 
         navList.apply {
@@ -68,11 +63,7 @@ class MainActivity : BaseActivity() {
         }
 
         btnDate.setOnClickListener {
-            val chooseMonthDialog = ChooseMonthDialog()
-            val bundle = Bundle()
-            bundle.putSerializable("user", mUser)
-            chooseMonthDialog.arguments = bundle
-            chooseMonthDialog.show(supportFragmentManager, "monthPickerDialog")
+            openChooseMonth(mUser).show(supportFragmentManager, "monthPickerDialog")
         }
     }
 

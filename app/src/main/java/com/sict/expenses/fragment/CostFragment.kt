@@ -2,118 +2,122 @@ package com.sict.expenses.fragment
 
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.sict.expenses.R
-import com.sict.expenses.adapter.CostAdapter
 import com.sict.expenses.base.BaseFragment
-import com.sict.expenses.base.CostViewModelFactory
-import com.sict.expenses.helper.PieChartShow
+import com.sict.expenses.helper.Charts.BarChartShow
+import com.sict.expenses.helper.Charts.PieChartShow
 import com.sict.expenses.model.Cost
-import com.sict.expenses.model.Payment
-import com.sict.expenses.viewModel.CostViewModel
+import com.sict.expenses.model.Wallet
 import kotlinx.android.synthetic.main.fragment_cost.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * Created by µðšţãƒâ ™ on 4/15/2019.
  * ->
  */
 class CostFragment : BaseFragment() {
-    private lateinit var vm: CostViewModel
     private lateinit var mPieChart: PieChartShow
-    private val mPaymentsList = mutableListOf<Payment>()
-    private val mAdapter = CostAdapter()
-    private var mPaymentId = 0
+    private lateinit var mBarChart: BarChartShow
+    private val mAllCost = mutableListOf<Cost>()
     override fun loadLayoutResource(): Int = R.layout.fragment_cost
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        paymentSpinner()
-
-        vm = ViewModelProviders.of(
-            activity!!, CostViewModelFactory(activity!!.application, mUserId, mPaymentId)
-        ).get(CostViewModel::class.java)
-
-        initExpensesRecyclerView()
-
-        startListening()
-        mPieChart = PieChartShow(pcCosts, mUserId)
-        mPieChart.hidePieChart()
-    }
-
-    private fun initExpensesRecyclerView() {
-        rvCosts.apply {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(context)
-            adapter = mAdapter
-            isNestedScrollingEnabled = false
+        mPieChart = PieChartShow(pcCosts, mAllCost, childFragmentManager)
+        mBarChart = BarChartShow(bcCosts, mAllCost, childFragmentManager)
+        setChartData()
+        btnChart.setOnClickListener {
+            showChartButton()
         }
     }
 
-    private fun paymentSpinner() {
-        Thread {
-            val payments = mutableListOf<CharSequence>()
-            mPaymentsList.addAll(mRoomDB.paymentsDao().getAllPaymentsByUser(mUserId))
-            activity!!.runOnUiThread {
-                payments.add(getString(R.string.choose_payment))
-                mPaymentsList.forEach { payments.add(it.name) }
-                val adapter = ArrayAdapter<CharSequence>(context!!, R.layout.spinner_center_item, payments)
-                adapter.setDropDownViewResource(R.layout.spinner_center_item)
-                spPayments.adapter = adapter
-                if (mPaymentsList.size > 0)
-                    spPayments.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                        override fun onNothingSelected(p0: AdapterView<*>?) {
-                        }
+    override fun onResume() {
+        super.onResume()
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this)
+    }
 
-                        override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                            if (position != 0)
-                                updatePaymentId(position)
-                        }
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
+
+    /**
+     * Come from [AddWalletDialog]
+     * When user change Wallet from WalletDialog
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onWalletChanged(wallet: Wallet) {
+        setChartData()
+    }
+
+    private fun setChartData() {
+        Thread {
+            mAllCost.clear()
+            val payments = mRoomDB.paymentsDao().getAllPaymentsByUser(mUserId)
+            var monthTotal = 0.0
+            payments.forEach { payment ->
+                val costs = mRoomDB.costDao().getAllCostChart(mUserId, payment.id!!)
+                if (costs.size > 0) {
+                    var total = 0.0
+                    costs.forEach { cost ->
+                        total += cost.price
                     }
-            }
-        }.start()
-    }
-
-    private fun updatePaymentId(position: Int) {
-        mPaymentId = mPaymentsList[position - 1].id!!
-        Thread {
-            val cost: Cost? = mRoomDB.costDao().getCostByUser(mUserId, mPaymentId)
-            if (cost == null) {
-                val user = mRoomDB.userDao().getUser(mUserId)
-                mRoomDB.costDao().insertCost(
-                    Cost(
-                        userId = mUserId, day = 32, month = user.month,
-                        year = user.year, paymentId = mPaymentId
+                    mAllCost.add(
+                        Cost(
+                            month = costs[0].month,
+                            userId = mUserId,
+                            paymentId = payment.id!!,
+                            name = payment.name,
+                            price = total
+                        )
                     )
-                )
-            } else
-                mRoomDB.costDao().updateCost(cost)
-            replaceSubscription()
+                    monthTotal += total
+                }
+            }
+            mPieChart.setData(monthTotal)
+            mBarChart.setData()
+            pcCosts.notifyDataSetChanged()
+            bcCosts.notifyDataSetChanged()
+            checkList(mAllCost.size)
         }.start()
-    }
-
-    private fun startListening() {
-        vm.costList!!.observe(this, Observer {
-            checkList(it.size)
-            mAdapter.submitList(it)
-        })
-    }
-
-    private fun replaceSubscription() {
-        activity!!.runOnUiThread {
-            vm.replaceSubscription(this, mPaymentId)
-            startListening()
-        }
     }
 
     private fun checkList(size: Int) {
-        if (size == 0)
-            tvNoData.visibility = View.VISIBLE
+        activity!!.runOnUiThread {
+            if (size == 0) {
+                tvNoData.visibility = View.VISIBLE
+                btnChart.visibility = View.GONE
+                mPieChart.hidePieChart()
+                mBarChart.hideBarChart()
+
+            } else {
+                tvNoData.visibility = View.GONE
+                btnChart.visibility = View.VISIBLE
+                showChart()
+            }
+        }
+    }
+
+    private fun showChartButton() {
+        if (btnChart.text.toString() == getString(R.string.bar_chart)) {
+            btnChart.text = getString(R.string.pie_chart)
+            mPieChart.hidePieChart()
+            mBarChart.showBarChart()
+        } else {
+            btnChart.text = getString(R.string.bar_chart)
+            mPieChart.showPieChart()
+            mBarChart.hideBarChart()
+        }
+    }
+
+    private fun showChart() {
+        if (btnChart.text.toString() == getString(R.string.bar_chart))
+            mPieChart.showPieChart()
         else
-            tvNoData.visibility = View.GONE
+            mBarChart.showBarChart()
     }
 }

@@ -25,6 +25,8 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="expenses_month">%1$s Expenses</string>
+    <string name="pie_chart">Pie Chart</string>
+    <string name="bar_chart">Bar Chart</string>
 
     <!-- validate Toasts-->
     <string name="toast_empty_field">This field can\'t be empty!</string>
@@ -52,6 +54,7 @@
     <string name="total">Total</string>
     <string name="cost">Cost</string>
     <string name="egp">EGP</string>
+    <string name="close">Close</string>
 
     <array name="months">
         <item>Jan</item>

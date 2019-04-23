@@ -7,6 +7,7 @@ import android.view.inputmethod.EditorInfo
 import com.bumptech.glide.Glide
 import com.sict.expenses.R
 import com.sict.expenses.base.BaseActivity
+import com.sict.expenses.helper.OpenDialog.openWallet
 import com.sict.expenses.model.User
 import com.sict.expenses.model.Wallet
 import com.sict.expenses.popupDialog.AddWalletDialog
@@ -78,7 +79,7 @@ class LoginActivity : BaseActivity() {
                 val bundle = Bundle()
                 bundle.putSerializable("userId", mUser.id)
                 addWalletDialog.arguments = bundle
-                addWalletDialog.show(supportFragmentManager, "login")
+                openWallet(mUser.id!!).show(supportFragmentManager, "login")
             }
         }
     }

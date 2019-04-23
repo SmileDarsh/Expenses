@@ -8,11 +8,11 @@ import android.widget.LinearLayout.LayoutParams
 import android.widget.TextView
 import com.sict.expenses.R
 import com.sict.expenses.base.BaseActivity
+import com.sict.expenses.helper.OpenDialog.openAddExpenses
 import com.sict.expenses.model.Cost
 import com.sict.expenses.model.Expenses
 import com.sict.expenses.model.ExpensesDetails
 import com.sict.expenses.popupDialog.AddExpensesDialog
-import com.sict.expenses.room.RoomDB
 import kotlinx.android.synthetic.main.activity_expenses_details.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -89,7 +89,7 @@ class ExpensesDetailsActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun updateItem(cost: Cost): Boolean {
-        for(it in mCostList.indices) {
+        for (it in mCostList.indices) {
             if (cost.id == mCostList[it].id && !mCostList[it].active) {
                 mCostList[it].active = true
                 mCostList[it].price = cost.price
@@ -147,12 +147,7 @@ class ExpensesDetailsActivity : BaseActivity(), View.OnClickListener {
                 hideSave()
             }
             btnAdd.id -> {
-                val addExpensesDialog = AddExpensesDialog()
-                val bundle = Bundle()
-                bundle.putInt("userId", mExpenses.userId)
-                bundle.putLong("date", mExpenses.date)
-                addExpensesDialog.arguments = bundle
-                addExpensesDialog.show(supportFragmentManager, "addExpenses")
+                openAddExpenses(mExpenses.userId, mExpenses.date).show(supportFragmentManager, "expensesDetails")
             }
         }
     }
