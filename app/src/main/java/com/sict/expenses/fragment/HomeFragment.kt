@@ -6,10 +6,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sict.expenses.R
 import com.sict.expenses.adapter.ExpensesAdapter
 import com.sict.expenses.base.BaseFragment
 import com.sict.expenses.base.HomeViewModelFactory
+import com.sict.expenses.helper.OpenDialog.openWallet
+import com.sict.expenses.model.Wallet
 import com.sict.expenses.viewModel.ExpensesViewModel
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -19,6 +22,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
  * ->
  */
 class HomeFragment : BaseFragment() {
+    private lateinit var mFab: FloatingActionButton
     private var mWallet = 0.0
     private val mAdapter = ExpensesAdapter()
     override fun loadLayoutResource(): Int = R.layout.fragment_home
@@ -27,17 +31,19 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mWallet = arguments!!.getDouble("wallet", 0.0)
+        mFab = activity!!.fab
 
         val vm = ViewModelProviders.of(
             activity!!, HomeViewModelFactory(activity!!.application, mUserId)
         ).get(ExpensesViewModel::class.java)
 
-        activity!!.runOnUiThread {
-            vm.expensesList.observe(this, Observer {
-                checkList(it.size)
-                mAdapter.submitList(it)
-            })
-            initExpensesRecyclerView()
+        vm.expensesList.observe(this, Observer {
+            checkList(it.size)
+            mAdapter.submitList(it)
+        })
+        initExpensesRecyclerView()
+        btnAdd.setOnClickListener {
+            openWallet(mUserId).show(childFragmentManager, "home")
         }
     }
 
@@ -46,7 +52,6 @@ class HomeFragment : BaseFragment() {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
             adapter = mAdapter
-            val mFab = activity!!.fab
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     if (dy > 0)
@@ -60,9 +65,28 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun checkList(size: Int) {
-        if (size == 0)
-            tvNoData.visibility = View.VISIBLE
-        else
-            tvNoData.visibility = View.GONE
+        Thread {
+            val wallet: Wallet? = mRoomDB.walletDao().getWallet(mUserId)
+            activity!!.runOnUiThread {
+                when {
+                    wallet == null -> {
+                        btnAdd.visibility = View.VISIBLE
+                        tvNoData.visibility = View.GONE
+                        mFab.hide()
+                    }
+                    size == 0 -> {
+                        tvNoData.visibility = View.VISIBLE
+                        btnAdd.visibility = View.GONE
+                        mFab.show()
+                    }
+                    else -> {
+                        tvNoData.visibility = View.GONE
+                        btnAdd.visibility = View.GONE
+                        mFab.show()
+                    }
+                }
+            }
+        }.start()
+
     }
 }

@@ -13,6 +13,7 @@
     <string name="add_wallet">Add Wallet</string>
     <string name="wallet">Wallet</string>
     <string name="wallet_text">you need to first fill your wallet</string>
+    <string name="your_wallet">your wallet is %1$s</string>
     <string name="user_name">User Name</string>
     <string name="password">Password</string>
     <string name="login">Login</string>

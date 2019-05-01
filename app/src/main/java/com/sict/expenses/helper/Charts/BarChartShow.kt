@@ -89,14 +89,7 @@ class BarChartShow(
             entries.add(BarEntry(it.toFloat(), mAllCost[it].price.toFloat()))
         }
 
-        val month = if (mAllCost.size > 0) mAllCost[0].month else 0
-
-        val dataSet = BarDataSet(
-            entries, String.format(
-                Locale.getDefault(), mBarChart.context.getString(R.string.expenses_month)
-                , mBarChart.context.resources.getStringArray(R.array.months)[month]
-            )
-        )
+        val dataSet = BarDataSet(entries, "")
 
         dataSet.setDrawIcons(false)
 
@@ -129,6 +122,12 @@ class BarChartShow(
 
         if (payments.size > 0)
             addXAxis(payments)
+
+        val month = if (mAllCost.size > 0) mAllCost[0].month else 0
+        mBarChart.description.text = String.format(
+            mBarChart.context.getString(R.string.expenses_month)
+            , mBarChart.context.resources.getStringArray(R.array.months)[month]
+        )
 
         addBarChartData(data)
     }

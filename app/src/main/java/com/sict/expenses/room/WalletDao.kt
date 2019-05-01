@@ -13,8 +13,8 @@ import com.sict.expenses.model.Wallet
 @Dao
 interface WalletDao {
     @Query(
-        """SELECT wallet.* , user.* FROM wallet INNER JOIN user ON walletMonth = userMonth AND walletYear = userYear
-           WHERE walletUserId = :userId"""
+        """SELECT wallet.* , user.* FROM wallet INNER JOIN user ON walletUserId = userId
+           WHERE walletUserId = :userId AND walletMonth = userMonth AND walletYear = userYear"""
     )
     fun getWallet(userId: Int): Wallet
 

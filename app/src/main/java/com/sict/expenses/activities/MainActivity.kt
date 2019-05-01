@@ -13,12 +13,12 @@ import com.sict.expenses.fragment.CostFragment
 import com.sict.expenses.fragment.HomeFragment
 import com.sict.expenses.helper.OpenDialog.openAddExpenses
 import com.sict.expenses.helper.OpenDialog.openChooseMonth
+import com.sict.expenses.helper.OpenDialog.openWallet
 import com.sict.expenses.helper.TypeReference
 import com.sict.expenses.model.NavMenu
 import com.sict.expenses.model.User
 import com.sict.expenses.model.Wallet
 import com.sict.expenses.popupDialog.AddPaymentDialog
-import com.sict.expenses.popupDialog.AddWalletDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.greenrobot.eventbus.EventBus
@@ -98,11 +98,7 @@ class MainActivity : BaseActivity() {
                 fab.hide()
             }
             TypeReference.WALLET -> {
-                val addWalletDialog = AddWalletDialog()
-                val bundle = Bundle()
-                bundle.putSerializable("userId", mUser.id)
-                addWalletDialog.arguments = bundle
-                addWalletDialog.show(supportFragmentManager, "main")
+                openWallet(mUser.id!!).show(supportFragmentManager, "main")
             }
             TypeReference.ADD_PAYMENT -> {
                 AddPaymentDialog().show(supportFragmentManager, "main")

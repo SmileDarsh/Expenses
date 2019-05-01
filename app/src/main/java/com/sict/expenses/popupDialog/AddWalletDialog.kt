@@ -35,12 +35,12 @@ class AddWalletDialog : BaseDialogFragment() {
             mUser = mRoomDB.userDao().getUser(mUserId)
             mWallet = mRoomDB.walletDao().getWallet(mUser.id!!)
             mFirstTime = if (mWallet == null) {
-                addText(etWallet, "0.0")
                 true
             } else {
-                addText(etWallet, mWallet!!.value.toString())
+                addText(tvWallet, String.format(getString(R.string.your_wallet), mWallet!!.value.toString()))
                 mWallet!!.value == 0.0
             }
+            addText(etWallet, "0.0")
             addText(tvDate, Utils.dateFormat(context!!, mUser.month, mUser.year))
         }.start()
 
@@ -57,14 +57,14 @@ class AddWalletDialog : BaseDialogFragment() {
     }
 
     private fun addWallet() {
-        if (etWallet.text.toString().trim().isNotEmpty())
+        if (etWallet.text.toString().trim().isNotEmpty() && etWallet.text.toString().trim() != "0.0")
             Thread {
                 val wallet = etWallet.text.toString().toDouble()
                 if (mFirstTime && mWallet == null) {
                     addNewWallet(wallet)
                 } else {
                     if (validate()) {
-                        mWallet!!.value = wallet
+                        mWallet!!.value += wallet
                         mRoomDB.walletDao().updateWallet(mWallet!!)
                     } else {
                         addNewWallet(wallet)
