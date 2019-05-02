@@ -56,6 +56,8 @@
     <string name="cost">Cost</string>
     <string name="egp">EGP</string>
     <string name="close">Close</string>
+    <string name="delete_user">Delete %1$s Account</string>
+    <string name="write_password">first write password for this account</string>
 
     <array name="months">
         <item>Jan</item>

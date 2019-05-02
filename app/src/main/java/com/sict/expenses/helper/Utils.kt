@@ -1,11 +1,15 @@
 package com.sict.expenses.helper
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.text.format.DateFormat
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.widget.DatePicker
+import android.widget.EditText
+import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import com.sict.expenses.R
@@ -39,16 +43,16 @@ object Utils {
         return calendar.time!!.time
     }
 
-    fun getTime(): Long {
-        val calendar = Calendar.getInstance()
-        val day = Calendar.DAY_OF_MONTH
-        val month = Calendar.MONTH
-        val year = Calendar.YEAR
-
-        calendar.set(year, month, day)
-
-        return calendar.time!!.time
-    }
+//    fun getTime(): Long {
+//        val calendar = Calendar.getInstance()
+//        val day = Calendar.DAY_OF_MONTH
+//        val month = Calendar.MONTH
+//        val year = Calendar.YEAR
+//
+//        calendar.set(year, month, day)
+//
+//        return calendar.time!!.time
+//    }
 
     fun setWindowLayoutForDialog(dialog: Dialog, width: Double, height: Double) {
         val window = dialog.window
@@ -69,6 +73,32 @@ object Utils {
         builder.setNegativeButton(R.string.ok, action)
         builder.setPositiveButton(R.string.cancel) { _, _ -> }
         val dialog = builder.create()
+        dialog.show()
+    }
+
+    @SuppressLint("InflateParams")
+    fun showPasswordDialog(context: Context, userName: String, action: OnNegativeButtonListener) {
+        val dialog = Dialog(context)
+        val view = LayoutInflater.from(context).inflate(R.layout.dialog_password, null, false)
+        val tvTitle = view.findViewById<TextView>(R.id.tvTitle)
+        val etPassword = view.findViewById<EditText>(R.id.etPassword)
+        val btnOk = view.findViewById<TextView>(R.id.btnOk)
+        val btnCancel = view.findViewById<TextView>(R.id.btnCancel)
+
+        tvTitle.text = String.format(context.getString(R.string.delete_user), userName)
+        btnOk.setOnClickListener {
+            if (etPassword.text.toString().trim().isNotEmpty()) {
+                etPassword.error = null
+                action.onNegativeButtonClick(dialog, etPassword)
+            } else
+                etPassword.error = context.getString(R.string.toast_empty_field)
+        }
+
+        btnCancel.setOnClickListener { dialog.dismiss() }
+        dialog.setContentView(view)
+        if (dialog.window != null)
+            dialog.window!!.setBackgroundDrawableResource(R.drawable.curved_corners_layout)
+        setWindowLayoutForDialog(dialog, .85, .40)
         dialog.show()
     }
 }
