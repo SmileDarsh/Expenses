@@ -4,14 +4,20 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.sict.expenses.helper.DATABASE_NAME_WITH_FORMAT
 import com.sict.expenses.model.*
 
 /**
  * Created by µðšţãƒâ ™ on 4/3/2019.
  * ->
  */
-@Database(entities = [User::class, Expenses::class, Cost::class, Payment::class , Wallet::class , FKPayment::class], version = 1,
-    exportSchema = false)
+
+
+@Database(
+    entities = [User::class, Expenses::class, Cost::class, Payment::class, Wallet::class, FKPayment::class],
+    version = 1,
+    exportSchema = false
+)
 abstract class RoomDB : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun expensesDao(): ExpensesDao
@@ -27,7 +33,11 @@ abstract class RoomDB : RoomDatabase() {
             if (INSTANCE == null) {
                 synchronized(this) {
                     INSTANCE = Room
-                        .databaseBuilder(context.applicationContext, RoomDB::class.java, "expensesOne.db")
+                        .databaseBuilder(
+                            context.applicationContext,
+                            RoomDB::class.java,
+                            DATABASE_NAME_WITH_FORMAT
+                        )
                         .fallbackToDestructiveMigration()
                         .build()
                 }

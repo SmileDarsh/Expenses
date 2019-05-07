@@ -1,6 +1,7 @@
 package com.sict.expenses.helper
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
@@ -13,6 +14,7 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import com.sict.expenses.R
+import com.sict.expenses.activities.SplashActivity
 import java.util.*
 
 
@@ -70,8 +72,11 @@ object Utils {
     fun showAlertDialog(context: Context, @StringRes message: Int, action: DialogInterface.OnClickListener) {
         val builder = AlertDialog.Builder(context)
         builder.setMessage(message)
-        builder.setNegativeButton(R.string.ok, action)
-        builder.setPositiveButton(R.string.cancel) { _, _ -> }
+        if (context is SplashActivity)
+            builder.setNegativeButton(R.string.cancel) { _, _ -> (context as Activity).finish() }
+        else
+            builder.setNegativeButton(R.string.cancel) { _, _ -> }
+        builder.setPositiveButton(R.string.ok, action)
         val dialog = builder.create()
         dialog.show()
     }

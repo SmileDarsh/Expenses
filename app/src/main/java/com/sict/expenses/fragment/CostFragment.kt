@@ -7,7 +7,6 @@ import com.sict.expenses.base.BaseFragment
 import com.sict.expenses.helper.Charts.BarChartShow
 import com.sict.expenses.helper.Charts.PieChartShow
 import com.sict.expenses.model.Cost
-import com.sict.expenses.model.Wallet
 import kotlinx.android.synthetic.main.fragment_cost.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -46,12 +45,13 @@ class CostFragment : BaseFragment() {
     }
 
     /**
-     * Come from [AddWalletDialog]
-     * When user change Wallet from WalletDialog
+     * Come from [ChooseMonth]
+     * When user change Month from ChooseMonthDialog
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onWalletChanged(wallet: Wallet) {
-        setChartData()
+    fun onWalletChanged(change: String) {
+        if (change == "change")
+            setChartData()
     }
 
     private fun setChartData() {

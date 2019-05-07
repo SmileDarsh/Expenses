@@ -5,5 +5,5 @@ package com.sict.expenses.helper
  * ->
  */
 enum class TypeReference {
-    HOME , COST, WALLET , LOGOUT , ADD_PAYMENT
+    HOME , COST, WALLET , LOGOUT , ADD_PAYMENT , CHANGE_PASSWORD
 }

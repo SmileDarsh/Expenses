@@ -12,6 +12,7 @@ import com.sict.expenses.base.NavigationManager
 import com.sict.expenses.fragment.CostFragment
 import com.sict.expenses.fragment.HomeFragment
 import com.sict.expenses.helper.OpenDialog.openAddExpenses
+import com.sict.expenses.helper.OpenDialog.openChangePassword
 import com.sict.expenses.helper.OpenDialog.openChooseMonth
 import com.sict.expenses.helper.OpenDialog.openWallet
 import com.sict.expenses.helper.TypeReference
@@ -27,7 +28,6 @@ import org.greenrobot.eventbus.ThreadMode
 
 class MainActivity : BaseActivity() {
     private lateinit var mUser: User
-    private lateinit var mWallet: Wallet
 
     override fun loadLayoutResource(): Int = R.layout.activity_main
 
@@ -38,7 +38,6 @@ class MainActivity : BaseActivity() {
 
         Thread {
             mUser = mRoomDB.userDao().getUser(intent.getIntExtra("userId", 0))
-            mWallet = mRoomDB.walletDao().getWallet(mUser.id!!)
             navManager.open(
                 addHomeFragment(), R.id.frame_layout, NavigationManager.OpenMethod.REPLACE, false, "HomeFragment"
             )
@@ -57,6 +56,11 @@ class MainActivity : BaseActivity() {
                     NavMenu(getString(R.string.cost), R.drawable.ic_cost, TypeReference.COST),
                     NavMenu(getString(R.string.add_wallet), R.drawable.ic_add_box, TypeReference.WALLET),
                     NavMenu(getString(R.string.add_payment), R.drawable.ic_payment, TypeReference.ADD_PAYMENT),
+                    NavMenu(
+                        getString(R.string.change_password),
+                        R.drawable.ic_change_password,
+                        TypeReference.CHANGE_PASSWORD
+                    ),
                     NavMenu(getString(R.string.logout), R.drawable.ic_logout, TypeReference.LOGOUT)
                 )
             )
@@ -103,6 +107,9 @@ class MainActivity : BaseActivity() {
             TypeReference.ADD_PAYMENT -> {
                 AddPaymentDialog().show(supportFragmentManager, "main")
             }
+            TypeReference.CHANGE_PASSWORD -> {
+                openChangePassword(mUser).show(supportFragmentManager, "main")
+            }
             TypeReference.LOGOUT -> {
                 startActivity(Intent(this@MainActivity, WelcomeActivity::class.java))
                 finish()
@@ -115,7 +122,6 @@ class MainActivity : BaseActivity() {
         val homeFragment = HomeFragment()
         val bundle = Bundle()
         bundle.putInt("userId", mUser.id!!)
-        bundle.putDouble("wallet", mWallet.value)
         homeFragment.arguments = bundle
         return homeFragment
     }

@@ -2,10 +2,7 @@ package com.sict.expenses.helper
 
 import android.os.Bundle
 import com.sict.expenses.model.User
-import com.sict.expenses.popupDialog.AddExpensesDialog
-import com.sict.expenses.popupDialog.AddWalletDialog
-import com.sict.expenses.popupDialog.ChooseMonthDialog
-import com.sict.expenses.popupDialog.CostDetailsDialog
+import com.sict.expenses.popupDialog.*
 
 /**
  * Created by µðšţãƒâ ™ on 4/21/2019.
@@ -45,5 +42,13 @@ object OpenDialog {
         bundle.putSerializable("user", user)
         chooseMonthDialog.arguments = bundle
         return chooseMonthDialog
+    }
+
+    fun openChangePassword(user: User): ChangePasswordDialog {
+        val changePasswordDialog = ChangePasswordDialog()
+        val bundle = Bundle()
+        bundle.putSerializable("user", user)
+        changePasswordDialog.arguments = bundle
+        return changePasswordDialog
     }
 }

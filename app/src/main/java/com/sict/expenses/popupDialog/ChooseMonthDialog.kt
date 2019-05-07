@@ -30,9 +30,7 @@ class ChooseMonthDialog : BaseDialogFragment() {
         btnAdd.setOnClickListener {
             Thread {
                 mRoomDB.userDao().updateUser(mUser)
-                val wallet: Wallet? = mRoomDB.walletDao().getWallet(mUser.id!!)
-                if (wallet != null)
-                    EventBus.getDefault().post(mRoomDB.walletDao().getWallet(mUser.id!!))
+                EventBus.getDefault().post("change")
                 dismiss()
             }.start()
         }

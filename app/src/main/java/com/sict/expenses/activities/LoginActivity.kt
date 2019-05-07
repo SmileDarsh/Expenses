@@ -1,5 +1,6 @@
 package com.sict.expenses.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -7,22 +8,18 @@ import android.view.inputmethod.EditorInfo
 import com.bumptech.glide.Glide
 import com.sict.expenses.R
 import com.sict.expenses.base.BaseActivity
-import com.sict.expenses.helper.OpenDialog.openWallet
+import com.sict.expenses.helper.ImagePicker
 import com.sict.expenses.model.User
-import com.sict.expenses.model.Wallet
-import com.sict.expenses.popupDialog.AddWalletDialog
 import kotlinx.android.synthetic.main.activity_login.*
 import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 
 /**
  * Created by µðšţãƒâ ™ on 4/7/2019.
  * ->
  */
 class LoginActivity : BaseActivity() {
+    private lateinit var mImagePicker: ImagePicker
     private lateinit var mUser: User
-    private var mWallet: Wallet? = null
 
     override fun loadLayoutResource(): Int = R.layout.activity_login
 
@@ -30,10 +27,7 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         mUser = intent.getSerializableExtra("user") as User
-
-        Thread {
-            mWallet = mRoomDB.walletDao().getWallet(mUser.id!!)
-        }.start()
+        mImagePicker = ImagePicker(this, userImage)
 
         etPassword.setOnEditorActionListener { _, i, _ ->
             if (i == EditorInfo.IME_ACTION_DONE)
@@ -46,42 +40,13 @@ class LoginActivity : BaseActivity() {
             .into(userImage)
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (!EventBus.getDefault().isRegistered(this))
-            EventBus.getDefault().register(this)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        EventBus.getDefault().unregister(this)
-    }
-
-    /**
-     * Come from [AddWalletDialog.addWallet]
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onFinishActivity(finish: String) {
-        if (finish == "finish")
-            goToMainActivity()
-    }
-
     fun onLoginClicked(v: View) {
         onLogin()
     }
 
     private fun onLogin() {
-        if (validate()) {
-            if (mWallet != null && mWallet!!.value > 0.0) {
-                goToMainActivity()
-            } else {
-                val addWalletDialog = AddWalletDialog()
-                val bundle = Bundle()
-                bundle.putSerializable("userId", mUser.id)
-                addWalletDialog.arguments = bundle
-                openWallet(mUser.id!!).show(supportFragmentManager, "login")
-            }
-        }
+        if (validate())
+            goToMainActivity()
     }
 
     private fun validate(): Boolean {
@@ -102,11 +67,31 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun goToMainActivity() {
+        if (mImagePicker.mUserImage.isNotEmpty())
+            Thread {
+                mUser.image = mImagePicker.mUserImage
+                mRoomDB.userDao().updateUser(mUser)
+            }.start()
+
+
         startActivity(
             Intent(this@LoginActivity, MainActivity::class.java)
                 .putExtra("userId", mUser.id)
         )
         EventBus.getDefault().post("welcome")
         finish()
+    }
+
+    fun onImageProfileClicked(v: View) {
+        mImagePicker.requestPermission()
+    }
+
+    @SuppressLint("Recycle")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        mImagePicker.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        mImagePicker.onRequestPermissionsResult(requestCode)
     }
 }

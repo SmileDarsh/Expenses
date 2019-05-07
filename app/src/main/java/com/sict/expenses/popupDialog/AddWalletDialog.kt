@@ -75,8 +75,6 @@ class AddWalletDialog : BaseDialogFragment() {
                 wallets.forEach {
                     Logging.log("Wallet : ${it.id} - ${it.userId} - ${it.month} - ${it.year} - ${it.value}")
                 }
-                if (tag == "login")
-                    EventBus.getDefault().post("finish")
                 EventBus.getDefault().post(mWallet)
                 dismiss()
             }.start()

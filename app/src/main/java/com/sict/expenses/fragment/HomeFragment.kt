@@ -23,14 +23,12 @@ import kotlinx.android.synthetic.main.fragment_home.*
  */
 class HomeFragment : BaseFragment() {
     private lateinit var mFab: FloatingActionButton
-    private var mWallet = 0.0
     private val mAdapter = ExpensesAdapter()
     override fun loadLayoutResource(): Int = R.layout.fragment_home
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mWallet = arguments!!.getDouble("wallet", 0.0)
         mFab = activity!!.fab
 
         val vm = ViewModelProviders.of(

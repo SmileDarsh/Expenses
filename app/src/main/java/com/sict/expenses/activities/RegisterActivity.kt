@@ -1,21 +1,14 @@
 package com.sict.expenses.activities
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
-import android.provider.MediaStore
+import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
-import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.sict.expenses.R
 import com.sict.expenses.base.BaseActivity
-import com.sict.expenses.helper.Logging
+import com.sict.expenses.helper.ImagePicker
 import com.sict.expenses.model.User
-import com.sict.expenses.model.Wallet
 import kotlinx.android.synthetic.main.activity_register.*
 import java.util.*
 
@@ -24,10 +17,13 @@ import java.util.*
  * ->
  */
 class RegisterActivity : BaseActivity() {
-    private val REQUEST_CODE = View.generateViewId()
-    private val REQUEST_WRITE_PERMISSION = View.generateViewId()
-    private var mUserImage = ""
+    private lateinit var mImagePicker: ImagePicker
     override fun loadLayoutResource(): Int = R.layout.activity_register
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mImagePicker = ImagePicker(this, userImage)
+    }
 
     private fun validate(): Boolean {
         var cnt = 0
@@ -58,18 +54,11 @@ class RegisterActivity : BaseActivity() {
             val cal = Calendar.getInstance()
             Thread {
                 if (mRoomDB.userDao().isExist(etUserName.text.toString().trim()) == 0) {
-                    val userId = mRoomDB.userDao().insertUser(
+                    mRoomDB.userDao().insertUser(
                         User(
                             name = etUserName.text.toString(),
                             password = etPassword.text.toString(),
-                            image = mUserImage,
-                            month = cal.get(Calendar.MONTH),
-                            year = cal.get(Calendar.YEAR)
-                        )
-                    )
-                    mRoomDB.walletDao().insertWallet(
-                        Wallet(
-                            userId = userId.toInt(),
+                            image = mImagePicker.mUserImage,
                             month = cal.get(Calendar.MONTH),
                             year = cal.get(Calendar.YEAR)
                         )
@@ -84,52 +73,15 @@ class RegisterActivity : BaseActivity() {
     }
 
     fun onImageProfileClicked(v: View) {
-        requestPermission()
-    }
-
-    private fun chooseImage() {
-        val galleryIntent = Intent(
-            Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        )
-        startActivityForResult(galleryIntent, REQUEST_CODE)
-    }
-
-    private fun requestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                REQUEST_WRITE_PERMISSION
-            )
-        }
+        mImagePicker.requestPermission()
     }
 
     @SuppressLint("Recycle")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (REQUEST_CODE == requestCode && resultCode == Activity.RESULT_OK && data != null) {
-            val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-            val cursor = contentResolver.query(
-                data.data!!,
-                filePathColumn, null, null, null
-            )!!
-            cursor.moveToFirst()
-            val columnIndex = cursor.getColumnIndex(filePathColumn[0])
-            mUserImage = cursor.getString(columnIndex)
-            Glide.with(this@RegisterActivity)
-                .load(mUserImage)
-                .into(userImage)
-            cursor.close()
-        }
+        mImagePicker.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        if (requestCode == REQUEST_WRITE_PERMISSION)
-            if (ContextCompat.checkSelfPermission(this@RegisterActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED
-            ) {
-                chooseImage()
-            } else {
-                Logging.toast(this@RegisterActivity, R.string.toast_accept_permission)
-            }
+        mImagePicker.onRequestPermissionsResult(requestCode)
     }
 }

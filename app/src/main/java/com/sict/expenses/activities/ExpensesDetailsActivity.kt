@@ -36,13 +36,20 @@ class ExpensesDetailsActivity : BaseActivity(), View.OnClickListener {
 
         mExpenses = intent.getSerializableExtra("expenses") as Expenses
 
+        toolbar.title = mExpenses.isDate
+
         ibnEdit.setOnClickListener(this)
         tvSave.setOnClickListener(this)
         btnAdd.setOnClickListener(this)
 
         Thread {
             mCostList.addAll(mRoomDB.costDao().getCostByExpenses(mExpenses.id!!))
-            mCostList.forEach { addItem(it) }
+            if (mCostList.size > 0)
+                mCostList.forEach { addItem(it) }
+            else {
+                mRoomDB.expensesDao().deleteExpensesByUser(mExpenses.id!!)
+                finish()
+            }
         }.start()
     }
 
