@@ -63,7 +63,9 @@
     <string name="current_password">Current Password</string>
     <string name="new_password">New Password</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="we_need_permission_storage">We Need permission Storage</string>
+    <string name="we_need_permission_storage">We Need permission Storage click in Permissions from App Info and press
+        switch on to Storage
+    </string>
 
     <array name="months">
         <item>Jan</item>

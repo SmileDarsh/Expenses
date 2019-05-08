@@ -22,6 +22,7 @@ class AddWalletDialog : BaseDialogFragment() {
     private lateinit var mUser: User
     private var mWallet: Wallet? = null
     private var mFirstTime = false
+    private var mPlus = true
 
     override fun loadLayoutResource(): Int = R.layout.dialog_add_wallet
 
@@ -54,6 +55,13 @@ class AddWalletDialog : BaseDialogFragment() {
         btnAdd.setOnClickListener {
             addWallet()
         }
+
+        btnPlus.setOnClickListener {
+            if (mPlus)
+                hidePlus()
+            else
+                showPlus()
+        }
     }
 
     private fun addWallet() {
@@ -64,7 +72,10 @@ class AddWalletDialog : BaseDialogFragment() {
                     addNewWallet(wallet)
                 } else {
                     if (validate()) {
-                        mWallet!!.value += wallet
+                        if (mPlus)
+                            mWallet!!.value += wallet
+                        else
+                            mWallet!!.value -= wallet
                         mRoomDB.walletDao().updateWallet(mWallet!!)
                     } else {
                         addNewWallet(wallet)
@@ -99,5 +110,15 @@ class AddWalletDialog : BaseDialogFragment() {
 
     private fun addText(tv: TextView, text: CharSequence) {
         activity!!.runOnUiThread { tv.text = text }
+    }
+
+    private fun showPlus() {
+        btnPlus.setBackgroundResource(R.drawable.ic_plus)
+        mPlus = true
+    }
+
+    private fun hidePlus() {
+        btnPlus.setBackgroundResource(R.drawable.ic_minus)
+        mPlus = false
     }
 }

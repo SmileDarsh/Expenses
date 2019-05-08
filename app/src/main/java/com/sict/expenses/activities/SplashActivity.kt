@@ -5,8 +5,10 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
 import androidx.core.app.ActivityCompat
 import com.sict.expenses.R
 import com.sict.expenses.base.BaseActivity
@@ -18,9 +20,9 @@ import com.sict.expenses.helper.Utils
  * Created by µðšţãƒâ ™ on 4/7/2019.
  * ->
  */
-const val MY_PERMISSIONS_REQUEST_READ_STORAGE = 99
 
 class SplashActivity : BaseActivity() {
+    private val MY_PERMISSIONS_REQUEST_READ_STORAGE = 99
     private var mDelayHandler: Handler? = null
     private val mSplashDelay: Long = 3000
     private val mRunnable: Runnable = Runnable {
@@ -59,7 +61,11 @@ class SplashActivity : BaseActivity() {
                 } else {
                     Utils.showAlertDialog(this@SplashActivity, R.string.we_need_permission_storage,
                         DialogInterface.OnClickListener { _, _ ->
-                            mDelayHandler!!.postDelayed(mRunnable, mSplashDelay)
+                            startActivity(
+                                Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                                    .setData(Uri.parse("package:$packageName"))
+                            )
+                            finish()
                         })
                 }
                 return
