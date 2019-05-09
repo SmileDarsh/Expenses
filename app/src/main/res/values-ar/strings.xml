@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home">الرئيسية</string>
+    <string name="add_expenses">اضف مصروف</string>
+    <string name="expenses_details">تفاصيل المصروفات</string>
+    <string name="payment">المبلغ</string>
+    <string name="add_payment">اضف المبلغ</string>
+    <string name="add_value">قيمة</string>
+    <string name="choose_payment">اختار المبلغ</string>
+    <string name="new_payment">ملبغ جديد</string>
+    <string name="add_wallet">اضف الى المحفظة</string>
+    <string name="wallet">المحفظة</string>
+    <string name="wallet_text">انت تحتاج اولاً ملىء المحفظة</string>
+    <string name="your_wallet">انت معاك فى محفظتك %1$s</string>
+    <string name="user_name">اسم المستخدم</string>
+    <string name="password">الباسورد</string>
+    <string name="login">دخول</string>
+    <string name="register">تسجيل</string>
+    <string name="logout">خروج</string>
+    <string name="new_account">انشأ حساب جديد</string>
+    <string name="add_successful">اضافة ناجحة</string>
+    <string name="remove_successful">تم مسحها بنجاح</string>
+    <string name="ok">تم</string>
+    <string name="cancel">إلغاء</string>
+    <string name="expenses_month">مصروفات %1$s</string>
+    <string name="pie_chart">رسم دائرى</string>
+    <string name="bar_chart">رسم بيانى</string>
+
+    <!-- validate Toasts-->
+    <string name="toast_empty_field">هذا المكان لايمكن ان يكون فارغ</string>
+    <string name="toast_user_exist">هذا المستخدم موجود بالفعل</string>
+    <string name="toast_payment_exist">هذا المبلغ موجود بالفعل</string>
+    <string name="toast_payment_not_exist">هذا المبلغ غير موجود</string>
+    <string name="toast_accept_permission">يجب اولاً قبول الاذن</string>
+    <string name="toast_user_deleted">هل انت متأكد بمسح جميع البيانات لهذا المستخدم</string>
+    <string name="toast_password_less_5">الباسورد يجب الا يكون اقل من 5 حروف وارقام</string>
+    <string name="toast_confirm_password">الباسورد مش متشابه</string>
+    <string name="toast_password_error">الباسورد غير صحيح</string>
+    <string name="toast_email_error">الايميل غير صحيح</string>
+    <string name="toast_mobile_error">الموبايل غير صحيح</string>
+    <string name="toast_mobile_not_11">رقم الموبايل يجب ان يكون اكبر من 11 رقم صحيح</string>
+    <string name="toast_webservice_error">يوجد خطأ بالاستجابة مع الموقع , يرجى المحاوله لاحقاً</string>
+    <string name="toast_no_cost_found">لا يوجد تكاليف لهذا الشهر</string>
+    <string name="toast_no_expenses_found">لا يوجد مصروفات لهذا الشهر</string>
+    <string name="toast_month">شهر غير صحيح</string>
+    <string name="toast_password_successfully">تم تغير الباسورد بنجاح</string>
+    <string name="toast_date_error">هذا التاريخ موجود بالفعل</string>
+    <string name="save">احفظ</string>
+    <string name="remove">امسح</string>
+    <string name="add">اضف</string>
+    <string name="choose_month">اختار الشهر</string>
+    <string name="choose">اختر</string>
+    <string name="total">المجموع</string>
+    <string name="cost">التكاليف</string>
+    <string name="egp">جنيه</string>
+    <string name="close">اغلق</string>
+    <string name="delete_user">مسح حساب %1$s</string>
+    <string name="write_password">اولاً اكتب الباسورد لهذا المستخدم</string>
+    <string name="change_password">تغير الباسورد</string>
+    <string name="current_password">الباسورد الحالى</string>
+    <string name="new_password">الباسورد الجديد</string>
+    <string name="confirm_password">تأكيد الباسورد</string>
+    <string name="we_need_permission_storage">نحن نحتاج اذن التخزين يكون فعال, اضغط على الأذونات من معلومات التطبيق وفعل
+        اذن التخزين
+    </string>
+
+    <array name="months">
+        <item>يناير</item>
+        <item>فبراير</item>
+        <item>مارس</item>
+        <item>إبريل</item>
+        <item>مايو</item>
+        <item>يونيه</item>
+        <item>يوليو</item>
+        <item>إغسطس</item>
+        <item>سبتمبر</item>
+        <item>إكتوبر</item>
+        <item>نوفمبر</item>
+        <item>ديسمبر</item>
+    </array>
+</resources>

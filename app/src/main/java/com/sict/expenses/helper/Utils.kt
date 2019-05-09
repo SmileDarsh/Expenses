@@ -15,6 +15,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import com.sict.expenses.R
 import com.sict.expenses.activities.SplashActivity
+import java.text.NumberFormat
 import java.util.*
 
 
@@ -27,7 +28,9 @@ object Utils {
     fun dateFormat(date: Long): CharSequence = DateFormat.format("EEE , dd-MMM-yyyy", date)
 
     fun dateFormat(context: Context, month: Int, year: Int): CharSequence =
-        "${context.resources.getStringArray(R.array.months)[month]} , $year"
+        "${context.resources.getStringArray(R.array.months)[month]} , ${replaceArabicNumbers(year.toString())}"
+
+    fun numberFormat(value: Any): String = NumberFormat.getInstance(Locale.getDefault()).format(value)
 
     /**
      *
@@ -105,5 +108,21 @@ object Utils {
             dialog.window!!.setBackgroundDrawableResource(R.drawable.curved_corners_layout)
         setWindowLayoutForDialog(dialog, .85, .40)
         dialog.show()
+    }
+
+    private fun replaceArabicNumbers(original: String): String {
+        return if (Locale.getDefault().displayLanguage == "العربية")
+            original.replace("1".toRegex(), "١")
+                .replace("2".toRegex(), "٢")
+                .replace("3".toRegex(), "٣")
+                .replace("4".toRegex(), "٤")
+                .replace("5".toRegex(), "٥")
+                .replace("6".toRegex(), "٦")
+                .replace("7".toRegex(), "٧")
+                .replace("8".toRegex(), "٨")
+                .replace("9".toRegex(), "٩")
+                .replace("0".toRegex(), "٠")
+        else
+            original
     }
 }

@@ -9,6 +9,9 @@ import android.widget.TextView
 import com.sict.expenses.R
 import com.sict.expenses.base.BaseActivity
 import com.sict.expenses.helper.OpenDialog.openAddExpenses
+import com.sict.expenses.helper.Utils
+import com.sict.expenses.helper.Utils.dateFormat
+import com.sict.expenses.helper.Utils.numberFormat
 import com.sict.expenses.model.Cost
 import com.sict.expenses.model.Expenses
 import com.sict.expenses.model.ExpensesDetails
@@ -17,6 +20,8 @@ import kotlinx.android.synthetic.main.activity_expenses_details.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.text.NumberFormat
+import java.util.*
 
 /**
  * Created by µðšţãƒâ ™ on 4/4/2019.
@@ -36,7 +41,7 @@ class ExpensesDetailsActivity : BaseActivity(), View.OnClickListener {
 
         mExpenses = intent.getSerializableExtra("expenses") as Expenses
 
-        toolbar.title = mExpenses.isDate
+        toolbar.title = dateFormat(mExpenses.date)
 
         ibnEdit.setOnClickListener(this)
         tvSave.setOnClickListener(this)
@@ -83,7 +88,7 @@ class ExpensesDetailsActivity : BaseActivity(), View.OnClickListener {
             addCost(cost)
             etPaymentValue.isEnabled = false
             tvPaymentName.text = cost.name
-            etPaymentValue.setText(cost.price.toString())
+            etPaymentValue.setText(numberFormat(cost.price))
             mEditTextList.add(ExpensesDetails(etPaymentValue, tvPaymentName))
             val params = LayoutParams(
                 LayoutParams.MATCH_PARENT,

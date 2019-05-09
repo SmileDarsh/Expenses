@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Expenses</string>
+    <string name="app_name" translatable="false">Expenses</string>
     <string name="drawer_opened" translatable="false">drawer_opened</string>
     <string name="drawer_closed" translatable="false">drawer_closed</string>
     <string name="home">Home</string>
@@ -19,7 +19,6 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="logout">Logout</string>
-    <string name="tap_to_log_in">Tap to Log In</string>
     <string name="new_account">Create New Account</string>
     <string name="add_successful">add successful</string>
     <string name="remove_successful">item has removed</string>

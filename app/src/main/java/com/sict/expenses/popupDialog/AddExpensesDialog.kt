@@ -11,7 +11,8 @@ import androidx.appcompat.widget.AppCompatSpinner
 import com.sict.expenses.R
 import com.sict.expenses.base.BaseDialogFragment
 import com.sict.expenses.helper.Logging
-import com.sict.expenses.helper.Utils
+import com.sict.expenses.helper.Utils.dateFormat
+import com.sict.expenses.helper.Utils.getLongDateFromDatePicker
 import com.sict.expenses.model.*
 import kotlinx.android.synthetic.main.dialog_add_expenses.view.*
 import org.greenrobot.eventbus.EventBus
@@ -69,15 +70,15 @@ class AddExpensesDialog : BaseDialogFragment() {
         } else
             mDate = Date().time
 
-        mTvDate.text = Utils.dateFormat(mDate)
+        mTvDate.text = dateFormat(mDate)
         mDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
 
         mTvDate.setOnClickListener {
             val datePickerDialog = DatePickerDialog(
                 context!!,
                 DatePickerDialog.OnDateSetListener { view, year, month, day ->
-                    mDate = Utils.getLongDateFromDatePicker(view)
-                    mTvDate.text = Utils.dateFormat(mDate)
+                    mDate = getLongDateFromDatePicker(view)
+                    mTvDate.text = dateFormat(mDate)
                     mDay = day
                     mMonth = month
                     mYear = year

@@ -12,8 +12,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sict.expenses.R
 import com.sict.expenses.activities.ExpensesDetailsActivity
 import com.sict.expenses.helper.Utils
+import com.sict.expenses.helper.Utils.dateFormat
+import com.sict.expenses.helper.Utils.numberFormat
 import com.sict.expenses.model.ExpensesWallet
 import kotlinx.android.synthetic.main.item_expenses.view.*
+import java.text.NumberFormat
+import java.util.*
 
 /**
  * Created by µðšţãƒâ ™ on 4/4/2019.
@@ -55,9 +59,9 @@ class ExpensesAdapter : PagedListAdapter<ExpensesWallet, ExpensesNewHolder>(DIFF
 class ExpensesNewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bindView(expenses: ExpensesWallet) {
         with(itemView) {
-            tvDate.text = Utils.dateFormat(expenses.expenses.date)
-            tvExpenses.text = expenses.expenses.price.toString()
-            tvWallet.text = expenses.expenses.wallet.toString()
+            tvDate.text = dateFormat(expenses.expenses.date)
+            tvExpenses.text = numberFormat(expenses.expenses.price)
+            tvWallet.text = numberFormat(expenses.expenses.wallet)
             cvCard.setOnClickListener {
                 context.startActivity(
                     Intent(context, ExpensesDetailsActivity::class.java)

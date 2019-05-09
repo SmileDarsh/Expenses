@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sict.expenses.R
 import com.sict.expenses.helper.Utils
+import com.sict.expenses.helper.Utils.dateFormat
 import com.sict.expenses.model.Cost
 import kotlinx.android.synthetic.main.item_cost.view.*
 
@@ -34,7 +35,7 @@ class CostDetailsAdapter(private val mCosts: MutableList<Cost>) : RecyclerView.A
 class CostHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bindView(cost: Cost) {
         with(itemView) {
-            tvKeyOne.text = Utils.dateFormat(cost.date)
+            tvKeyOne.text = dateFormat(cost.date)
             val price = "${cost.price} ${context.getString(R.string.egp)}"
             tvValueOne.text = price
         }

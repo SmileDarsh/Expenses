@@ -27,9 +27,6 @@ interface PaymentsDao {
     @Query("SELECT * FROM payment WHERE name = :name")
     fun getPayment(name: String): Payment
 
-    @Query("SELECT * FROM payment WHERE paymentId = :id")
-    fun getPayment(id: Int): Payment
-
     @Query("SELECT name FROM payment")
     fun getPaymentNames(): MutableList<String>
 

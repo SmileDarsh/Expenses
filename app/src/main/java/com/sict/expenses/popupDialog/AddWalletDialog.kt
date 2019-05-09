@@ -7,7 +7,8 @@ import android.widget.TextView
 import com.sict.expenses.R
 import com.sict.expenses.base.BaseDialogFragment
 import com.sict.expenses.helper.Logging
-import com.sict.expenses.helper.Utils
+import com.sict.expenses.helper.Utils.dateFormat
+import com.sict.expenses.helper.Utils.numberFormat
 import com.sict.expenses.model.User
 import com.sict.expenses.model.Wallet
 import kotlinx.android.synthetic.main.dialog_add_wallet.*
@@ -38,11 +39,11 @@ class AddWalletDialog : BaseDialogFragment() {
             mFirstTime = if (mWallet == null) {
                 true
             } else {
-                addText(tvWallet, String.format(getString(R.string.your_wallet), mWallet!!.value.toString()))
+                addText(tvWallet, String.format(getString(R.string.your_wallet), numberFormat(mWallet!!.value)))
                 mWallet!!.value == 0.0
             }
             addText(etWallet, "0.0")
-            addText(tvDate, Utils.dateFormat(context!!, mUser.month, mUser.year))
+            addText(tvDate, dateFormat(context!!, mUser.month, mUser.year))
         }.start()
 
 

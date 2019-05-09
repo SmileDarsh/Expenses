@@ -22,9 +22,6 @@ interface CostDao {
     )
     fun getAllCostChart(userId: Int, paymentId: Int): MutableList<Cost>
 
-    @Query("SELECT * FROM cost")
-    fun getAllCost(): MutableList<Cost>
-
     @Query("SELECT * FROM cost WHERE cost.pExpensesId = :expensesId AND costActive = 1")
     fun getCostByExpenses(expensesId: Int): MutableList<Cost>
 
@@ -36,11 +33,6 @@ interface CostDao {
 
     @Query("SELECT * FROM cost WHERE cost.pExpensesId = :parentId AND fkPaymentId = :paymentId")
     fun getCost(parentId: Int, paymentId: Int): Cost
-
-    @Query(
-        """SELECT * FROM cost WHERE fkCostUserId = :userId AND fkPaymentId = :paymentId AND costDay = 32"""
-    )
-    fun getCostByUser(userId: Int, paymentId: Int): Cost
 
     @Insert
     fun insertCost(cost: Cost): Long

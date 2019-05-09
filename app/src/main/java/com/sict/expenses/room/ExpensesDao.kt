@@ -15,13 +15,6 @@ import com.sict.expenses.model.ExpensesWallet
 @Dao
 interface ExpensesDao {
     @Query(
-        """SELECT expenses.* , user.* FROM expenses INNER JOIN user
-            ON fkUserId = userId WHERE fkUserId = :userId AND expensesMonth = userMonth AND expensesYear = userYear
-            ORDER BY expensesDate ASC"""
-    )
-    fun getAllExpenses(userId: Int): DataSource.Factory<Int, Expenses>
-
-    @Query(
         """SELECT expenses.* , user.* , wallet.* FROM expenses
             INNER JOIN user ON fkUserId = userId
             INNER JOIN wallet ON userId = walletUserId
@@ -29,13 +22,7 @@ interface ExpensesDao {
             AND userMonth = walletMonth AND userYear = walletYear
             ORDER BY expensesDate ASC"""
     )
-    fun getAllExpensesNew(userId: Int): DataSource.Factory<Int, ExpensesWallet>
-
-    @Query("SELECT * FROM expenses WHERE fkUserId = :userId ORDER BY expensesDate ASC")
-    fun getLastExpenses(userId: Int): Expenses
-
-    @Query("SELECT * FROM expenses")
-    fun getExpenses(): Expenses
+    fun getAllExpenses(userId: Int): DataSource.Factory<Int, ExpensesWallet>
 
     @Query("SELECT * FROM expenses WHERE fkUserId = :userId AND isDate = :date")
     fun getExpensesId(userId: Int, date: String): Expenses
