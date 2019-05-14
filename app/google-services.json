@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "115675493574",
+    "firebase_url": "https://expenses-a8f0e.firebaseio.com",
+    "project_id": "expenses-a8f0e",
+    "storage_bucket": "expenses-a8f0e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115675493574:android:42c6b64a7cf3af9b",
+        "android_client_info": {
+          "package_name": "com.irellia.expenses"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "115675493574-ttap54rbrch0l7upqbeq70uflhskpd83.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.irellia.expenses",
+            "certificate_hash": "38e508678d28527add5eee78fb667c300dadd9c0"
+          }
+        },
+        {
+          "client_id": "115675493574-vmj7e48r9nvua35dcnmobotau08qnaek.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOfCUDDLyE7GBEEy0iMMeK78v8Uewh_UY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "115675493574-vmj7e48r9nvua35dcnmobotau08qnaek.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

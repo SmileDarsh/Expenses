@@ -37,7 +37,7 @@
             android:layout_marginTop="16dp"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-            android:hint="@string/payment"
+            android:hint="@string/debtor"
             android:inputType="textPersonName"
             android:imeOptions="actionNext"
             android:background="@drawable/rectangle_background"

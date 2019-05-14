@@ -5,11 +5,12 @@
     <string name="home">Home</string>
     <string name="add_expenses">Add Expenses</string>
     <string name="expenses_details">Expenses Details</string>
-    <string name="payment">Payment</string>
-    <string name="add_payment">Add Payment</string>
+    <string name="debtors">Debtors</string>
+    <string name="debtor">Debtor</string>
+    <string name="add_debtor">Add Debtor</string>
     <string name="add_value">Value</string>
-    <string name="choose_payment">choose Payment</string>
-    <string name="new_payment">New Payment</string>
+    <string name="choose_debtor">choose Debtor</string>
+    <string name="new_debtor">New Debtor</string>
     <string name="add_wallet">Add Wallet</string>
     <string name="wallet">Wallet</string>
     <string name="wallet_text">you need to first fill your wallet</string>
@@ -31,8 +32,8 @@
     <!-- validate Toasts-->
     <string name="toast_empty_field">This field can\'t be empty!</string>
     <string name="toast_user_exist">This User already Exist</string>
-    <string name="toast_payment_exist">This Payment already Exist</string>
-    <string name="toast_payment_not_exist">This Payment is no\'t Exist</string>
+    <string name="toast_debtor_exist">This Debtor already Exist</string>
+    <string name="toast_debtor_not_exist">This Debtors is no\'t Exist</string>
     <string name="toast_accept_permission">You must Accept Permission First</string>
     <string name="toast_user_deleted">Are you sure you want delete all date for this user</string>
     <string name="toast_password_less_5">Password must be at least 5 characters long!</string>
@@ -44,6 +45,7 @@
     <string name="toast_webservice_error">Error sending request, please try again</string>
     <string name="toast_no_cost_found">No cost found for this Month</string>
     <string name="toast_no_expenses_found">No expenses found for this Month</string>
+    <string name="toast_internet">check your internet connection and try again</string>
     <string name="toast_month">Invalid month</string>
     <string name="toast_password_successfully">Password changed successfully</string>
     <string name="toast_date_error">This Date is already exist</string>
@@ -65,6 +67,9 @@
     <string name="we_need_permission_storage">We Need permission Storage click in Permissions from App Info and press
         switch on to Storage
     </string>
+    <string name="data_backup">Data Backup</string>
+    <string name="backup_massage">Check first if you have a backup on our server</string>
+    <string name="backup_not_exist">There is no backup on our server</string>
 
     <array name="months">
         <item>Jan</item>

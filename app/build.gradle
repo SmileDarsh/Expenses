@@ -9,7 +9,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion rootProject.ext.androidCompileSdkVersion
     defaultConfig {
-        applicationId "com.sict.expenses"
+        applicationId "com.irellia.expenses"
         minSdkVersion rootProject.ext.androidMinSdkVersion
         targetSdkVersion rootProject.ext.androidTargetSdkVersion
         versionCode 1
@@ -60,4 +60,8 @@ dependencies {
 
     implementation depend.chart
     implementation depend.eventBus
+
+    implementation depend.firebaseStorage
 }
+
+apply plugin: 'com.google.gms.google-services'

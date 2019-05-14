@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools" package="com.sict.expenses">
+          xmlns:tools="http://schemas.android.com/tools" package="com.irellia.expenses">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
@@ -12,7 +13,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="AllowBackup">
-        <activity android:name=".activities.SplashActivity"
+        <activity android:name="com.irellia.expenses.activities.SplashActivity"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:theme="@style/FullscreenTheme"
                   android:screenOrientation="portrait">
@@ -22,20 +23,20 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainActivity"
+        <activity android:name="com.irellia.expenses.activities.MainActivity"
                   android:screenOrientation="portrait"/>
-        <activity android:name=".activities.WelcomeActivity"
+        <activity android:name="com.irellia.expenses.activities.WelcomeActivity"
                   android:screenOrientation="portrait"
                   android:theme="@style/FullscreenTheme"/>
-        <activity android:name=".activities.LoginActivity"
+        <activity android:name="com.irellia.expenses.activities.LoginActivity"
                   android:screenOrientation="portrait"
                   android:theme="@style/FullscreenTheme"/>
-        <activity android:name=".activities.RegisterActivity"
+        <activity android:name="com.irellia.expenses.activities.RegisterActivity"
                   android:screenOrientation="portrait"
                   android:theme="@style/FullscreenTheme"/>
-        <activity android:name=".activities.ExpensesDetailsActivity"
+        <activity android:name="com.irellia.expenses.activities.ExpensesDetailsActivity"
                   android:windowSoftInputMode="stateAlwaysHidden"
-                  android:parentActivityName=".activities.ExpensesDetailsActivity"
+                  android:parentActivityName="com.irellia.expenses.activities.ExpensesDetailsActivity"
                   android:screenOrientation="portrait"/>
     </application>
 
