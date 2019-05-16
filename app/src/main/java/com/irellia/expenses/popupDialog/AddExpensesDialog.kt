@@ -35,6 +35,7 @@ class AddExpensesDialog : BaseDialogFragment() {
     private var mYear: Int = 0
     private var updateExpenses = false
     private var mPaymentId = 0
+    private var mUserId = 0
 
     override fun loadLayoutResource(): Int = R.layout.dialog_add_expenses
 
@@ -51,10 +52,10 @@ class AddExpensesDialog : BaseDialogFragment() {
         }
 
         mDate = arguments!!.getLong("date", 0L)
-        val userId = arguments!!.getInt("userId")
+        mUserId = arguments!!.getInt("userId")
 
         Thread {
-            mUser = mRoomDB.userDao().getUser(userId)
+            mUser = mRoomDB.userDao().getUser(mUserId)
             mMonth = mUser.month
             mYear = mUser.year
         }.start()
@@ -95,7 +96,7 @@ class AddExpensesDialog : BaseDialogFragment() {
     private fun paymentSpinner() {
         Thread {
             val payments = mutableListOf<CharSequence>()
-            mPaymentsList.addAll(mRoomDB.paymentsDao().getAllPayments())
+            mPaymentsList.addAll(mRoomDB.paymentsDao().getAllPaymentsByUser(mUserId))
             activity!!.runOnUiThread {
                 payments.add(getString(R.string.new_debtor))
                 mPaymentsList.forEach { payments.add(it.name) }

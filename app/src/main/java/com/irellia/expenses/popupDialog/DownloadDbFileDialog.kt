@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.irellia.expenses.R
 import com.irellia.expenses.activities.SplashActivity
+import com.irellia.expenses.activities.WelcomeActivity
 import com.irellia.expenses.base.BaseDialogFragment
 import com.irellia.expenses.base.BaseFirebaseStorage
 import com.irellia.expenses.helper.Logging
@@ -33,7 +34,7 @@ class DownloadDbFileDialog : BaseDialogFragment() {
             BaseFirebaseStorage(context!!).importFile(Utils.getMacAddressAndModel(), object : OnBackupDataRetrun {
                 override fun onSuccess() {
                     hideProgress()
-                    startActivity(Intent(context!!, SplashActivity::class.java))
+                    startActivity(Intent(context!!, WelcomeActivity::class.java))
                     dismiss()
                     activity!!.finish()
                 }

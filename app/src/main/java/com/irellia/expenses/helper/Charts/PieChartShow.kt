@@ -57,6 +57,7 @@ class PieChartShow(
                 e as PieEntry
                 val cost = mAllCost.single { it.name == e.label }
                 openCostDetails(cost.userId, cost.paymentId).show(mChildFragmentManager, e.label)
+                onChartClickable(false)
             }
         })
     }
@@ -128,6 +129,10 @@ class PieChartShow(
     fun showPieChart() {
         mPieChart.visibility = View.VISIBLE
         animateY()
+    }
+
+    fun onChartClickable(enable : Boolean){
+        mPieChart.setTouchEnabled(enable)
     }
 
     private fun animateY() {

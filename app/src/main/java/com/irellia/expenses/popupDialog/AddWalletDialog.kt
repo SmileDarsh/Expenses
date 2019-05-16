@@ -42,7 +42,6 @@ class AddWalletDialog : BaseDialogFragment() {
                 addText(tvWallet, String.format(getString(R.string.your_wallet), numberFormat(mWallet!!.value)))
                 mWallet!!.value == 0.0
             }
-            addText(etWallet, "0.0")
             addText(tvDate, dateFormat(context!!, mUser.month, mUser.year))
         }.start()
 
@@ -66,7 +65,7 @@ class AddWalletDialog : BaseDialogFragment() {
     }
 
     private fun addWallet() {
-        if (etWallet.text.toString().trim().isNotEmpty() && etWallet.text.toString().trim() != "0.0")
+        if (etWallet.text.toString().trim().isNotEmpty())
             Thread {
                 val wallet = etWallet.text.toString().toDouble()
                 if (mFirstTime && mWallet == null) {

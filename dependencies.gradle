@@ -2,7 +2,7 @@ ext {
 
     // Android
     androidCompileSdkVersion = 28
-    androidMinSdkVersion = 21
+    androidMinSdkVersion = 19
     androidTargetSdkVersion = 28
     kotlinVersionSdk = '1.3.20'
 

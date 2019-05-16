@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.irellia.expenses.R
 import com.irellia.expenses.adapter.CostDetailsAdapter
 import com.irellia.expenses.base.BaseDialogFragment
+import com.irellia.expenses.helper.Logging
 import kotlinx.android.synthetic.main.dialog_cost_details.*
 import kotlinx.android.synthetic.main.item_total.view.*
+import org.greenrobot.eventbus.EventBus
 
 /**
  * Created by µðšţãƒâ ™ on 4/21/2019.
@@ -44,5 +46,11 @@ class CostDetailsDialog : BaseDialogFragment() {
                 vTotal.tvValueOne.text = mAdapter.getAllCostPrice()
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Logging.log("CostDetailsDialog : Destroy")
+        EventBus.getDefault().post("destroy")
     }
 }

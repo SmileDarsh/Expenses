@@ -45,13 +45,18 @@ class CostFragment : BaseFragment() {
     }
 
     /**
-     * Come from [ChooseMonth]
+     * Come from [ChooseMonth] [CostDetailsDialog]
      * When user change Month from ChooseMonthDialog
+     * and When user click any value on chart disable another item click
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onWalletChanged(change: String) {
         if (change == "change")
             setChartData()
+        else if(change == "destroy") {
+            mPieChart.onChartClickable(true)
+            mBarChart.onChartClickable(true)
+        }
     }
 
     private fun setChartData() {

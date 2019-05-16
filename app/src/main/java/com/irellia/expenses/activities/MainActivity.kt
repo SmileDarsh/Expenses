@@ -92,12 +92,14 @@ class MainActivity : BaseActivity() {
                 navManager.open(
                     addHomeFragment(), R.id.frame_layout, NavigationManager.OpenMethod.REPLACE, false, "main"
                 )
+                toolbar.setTitle(R.string.home)
                 fab.show()
             }
             TypeReference.COST -> {
                 navManager.open(
                     addCostFragment(), R.id.frame_layout, NavigationManager.OpenMethod.REPLACE, false, "main"
                 )
+                toolbar.setTitle(R.string.cost)
                 fab.hide()
             }
             TypeReference.WALLET -> {

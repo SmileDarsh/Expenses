@@ -1,7 +1,7 @@
 package com.irellia.expenses.activities
 
 import android.Manifest
-import android.app.Activity
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -51,34 +51,6 @@ class SplashActivity : BaseActivity() {
         }
     }
 
-    private fun requestPermissions(activity: Activity) {
-        ActivityCompat.requestPermissions(
-            activity,
-            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-            MY_PERMISSIONS_REQUEST_READ_STORAGE
-        )
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        when (requestCode) {
-            MY_PERMISSIONS_REQUEST_READ_STORAGE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mDelayHandler!!.postDelayed(mRunnable, mSplashDelay)
-                } else {
-                    showAlertDialog(this@SplashActivity, R.string.we_need_permission_storage,
-                        DialogInterface.OnClickListener { _, _ ->
-                            startActivity(
-                                Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                                    .setData(Uri.parse("package:$packageName"))
-                            )
-                            finish()
-                        })
-                }
-                return
-            }
-        }
-    }
-
     override fun loadLayoutResource(): Int = R.layout.activity_splash
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,7 +60,7 @@ class SplashActivity : BaseActivity() {
         Logging.log("Mac : " + getMacAddressAndModel())
         mDelayHandler = Handler()
 
-        requestPermissions(this)
+        requestPermissions()
     }
 
     public override fun onDestroy() {
@@ -96,5 +68,54 @@ class SplashActivity : BaseActivity() {
             mDelayHandler!!.removeCallbacks(mRunnable)
         }
         super.onDestroy()
+    }
+
+    @SuppressLint("NewApi")
+    private fun requestPermissions() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            ) {
+                showPermissionDialog()
+            } else {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    MY_PERMISSIONS_REQUEST_READ_STORAGE
+                )
+            }
+        } else {
+            mDelayHandler!!.postDelayed(mRunnable, mSplashDelay)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            MY_PERMISSIONS_REQUEST_READ_STORAGE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mDelayHandler!!.postDelayed(mRunnable, mSplashDelay)
+                } else {
+                    showPermissionDialog()
+                }
+                return
+            }
+        }
+    }
+
+    private fun showPermissionDialog() {
+        showAlertDialog(this@SplashActivity, R.string.we_need_permission_storage,
+            DialogInterface.OnClickListener { _, _ ->
+                startActivity(
+                    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                        .setData(Uri.parse("package:$packageName"))
+                )
+                finish()
+            })
     }
 }

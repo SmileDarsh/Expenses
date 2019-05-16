@@ -56,6 +56,7 @@ class BarChartShow(
                 e as BarEntry
                 val cost = mAllCost[e.x.toInt()]
                 openCostDetails(cost.userId, cost.paymentId).show(mChildFragmentManager, cost.name)
+                onChartClickable(false)
             }
         })
     }
@@ -139,6 +140,10 @@ class BarChartShow(
     fun showBarChart() {
         mBarChart.visibility = View.VISIBLE
         animateY()
+    }
+
+    fun onChartClickable(enable : Boolean){
+        mBarChart.setTouchEnabled(enable)
     }
 
     private fun animateY() {

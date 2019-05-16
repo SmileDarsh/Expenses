@@ -16,7 +16,7 @@ import java.io.FileOutputStream
  * Created by µðšţãƒâ ™ on 5/12/2019.
  * ->
  */
-class BaseFirebaseStorage(val mContext: Context) {
+class BaseFirebaseStorage(private val mContext: Context) {
     private val mStorage = FirebaseStorage.getInstance()
     private var mStorageRef = mStorage.reference
     private var mFileName = "backup_$DATABASE_NAME_WITH_FORMAT"

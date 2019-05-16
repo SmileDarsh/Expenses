@@ -9,9 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.irellia.expenses.R
 import com.irellia.expenses.adapter.ExpensesAdapter
+import com.irellia.expenses.base.BaseFirebaseStorage
 import com.irellia.expenses.base.BaseFragment
 import com.irellia.expenses.base.HomeViewModelFactory
+import com.irellia.expenses.helper.DbBackup
 import com.irellia.expenses.helper.OpenDialog.openWallet
+import com.irellia.expenses.helper.Utils
 import com.irellia.expenses.model.Wallet
 import com.irellia.expenses.viewModel.ExpensesViewModel
 import kotlinx.android.synthetic.main.content_main.*
@@ -85,6 +88,7 @@ class HomeFragment : BaseFragment() {
                 }
             }
         }.start()
-
+        DbBackup.exportDatabaseFile(context!!)
+        BaseFirebaseStorage(context!!).addFile(Utils.getMacAddressAndModel())
     }
 }

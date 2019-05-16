@@ -12,9 +12,6 @@ import com.irellia.expenses.model.Payment
  */
 @Dao
 interface PaymentsDao {
-    @Query("SELECT * FROM payment WHERE paymentActive = 1 ORDER BY name DESC ")
-    fun getAllPayments(): MutableList<Payment>
-
     @Query(
         """SELECT payment.* , fkPayments.* FROM payment INNER JOIN fkPayments ON fkUser = :userId
         WHERE fkPayment = paymentId AND  paymentActive = 1 ORDER BY name DESC """
