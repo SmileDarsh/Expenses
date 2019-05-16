@@ -5,5 +5,5 @@ package com.irellia.expenses.helper
  * ->
  */
 enum class TypeReference {
-    HOME , COST, WALLET , LOGOUT , ADD_PAYMENT , CHANGE_PASSWORD
+    HOME , COST, WALLET , LOGOUT , ADD_PAYMENT , CHANGE_PASSWORD , SHARE
 }

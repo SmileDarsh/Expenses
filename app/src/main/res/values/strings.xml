@@ -28,6 +28,7 @@
     <string name="expenses_month">%1$s Expenses</string>
     <string name="pie_chart">Pie Chart</string>
     <string name="bar_chart">Bar Chart</string>
+    <string name="share">Share</string>
 
     <!-- validate Toasts-->
     <string name="toast_empty_field">This field can\'t be empty!</string>
@@ -70,6 +71,10 @@
     <string name="data_backup">Data Backup</string>
     <string name="backup_massage">Check first if you have a backup on our server</string>
     <string name="backup_not_exist">There is no backup on our server</string>
+    <string name="share_body">You want to know your expenses where it going , please download the Expense application
+        %1$s and know your daily expenses , and arranging your monthly expenses
+    </string>
+    <string name="share_link" translatable="false">https://play.google.com/store/apps/details?id=</string>
 
     <array name="months">
         <item>Jan</item>

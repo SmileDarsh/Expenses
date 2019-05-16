@@ -16,6 +16,7 @@ import com.irellia.expenses.helper.OpenDialog.openChangePassword
 import com.irellia.expenses.helper.OpenDialog.openChooseMonth
 import com.irellia.expenses.helper.OpenDialog.openWallet
 import com.irellia.expenses.helper.TypeReference
+import com.irellia.expenses.helper.Utils.share
 import com.irellia.expenses.model.NavMenu
 import com.irellia.expenses.model.User
 import com.irellia.expenses.popupDialog.AddPaymentDialog
@@ -59,6 +60,11 @@ class MainActivity : BaseActivity() {
                         getString(R.string.change_password),
                         R.drawable.ic_change_password,
                         TypeReference.CHANGE_PASSWORD
+                    ),
+                    NavMenu(
+                        getString(R.string.share),
+                        R.drawable.ic_share,
+                        TypeReference.SHARE
                     ),
                     NavMenu(getString(R.string.logout), R.drawable.ic_logout, TypeReference.LOGOUT)
                 )
@@ -110,6 +116,9 @@ class MainActivity : BaseActivity() {
             }
             TypeReference.CHANGE_PASSWORD -> {
                 openChangePassword(mUser).show(supportFragmentManager, "main")
+            }
+            TypeReference.SHARE -> {
+                share(this@MainActivity)
             }
             TypeReference.LOGOUT -> {
                 startActivity(Intent(this@MainActivity, WelcomeActivity::class.java))

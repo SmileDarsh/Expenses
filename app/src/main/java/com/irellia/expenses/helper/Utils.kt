@@ -21,6 +21,9 @@ import java.text.NumberFormat
 import java.util.*
 import kotlin.experimental.and
 import android.net.ConnectivityManager
+import android.content.Intent
+import com.irellia.expenses.room.RoomDB
+
 
 /**
  * Created by µðšţãƒâ ™ on 4/4/2019.
@@ -183,5 +186,21 @@ object Utils {
         }
 
         return false
+    }
+
+    fun share(context : Context){
+        //sharing implementation here
+        val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
+        sharingIntent.type = "text/plain"
+        sharingIntent.putExtra(
+            android.content.Intent.EXTRA_SUBJECT, context.getString(R.string.app_name))
+        sharingIntent.putExtra(
+            android.content.Intent.EXTRA_TEXT,
+            String.format(
+                context.getString(R.string.share_body),
+                context.getString(R.string.share_link) + context.packageName
+            )
+        )
+        context.startActivity(Intent.createChooser(sharingIntent, "Share via"))
     }
 }

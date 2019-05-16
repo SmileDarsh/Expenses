@@ -26,6 +26,7 @@
     <string name="expenses_month">مصروفات %1$s</string>
     <string name="pie_chart">رسم دائرى</string>
     <string name="bar_chart">رسم بيانى</string>
+    <string name="share">مشاركة</string>
 
     <!-- validate Toasts-->
     <string name="toast_empty_field">هذا المكان لايمكن ان يكون فارغ</string>
@@ -68,6 +69,9 @@
     <string name="data_backup">النسخة الاحتياطية</string>
     <string name="backup_massage">افحص اولاً اذا كان لديك نسخة احتياطيه على سيرفرنا</string>
     <string name="backup_not_exist">لا يوجد نسخة احتياطية على سيرفرنا</string>
+    <string name="share_body">عاوز تعرف مصاريفك بتروح فين نزل تطبيق إكسبينسس %1$s واعرف انت بتصرف كام يومياً وظبط مصاريفك
+        الشهريا
+    </string>
 
     <array name="months">
         <item>يناير</item>
