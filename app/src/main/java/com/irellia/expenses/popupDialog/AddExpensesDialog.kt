@@ -219,6 +219,7 @@ class AddExpensesDialog : BaseDialogFragment() {
                     activity!!.runOnUiThread { Logging.toast(context!!, R.string.toast_debtor_exist) }
                 } else {
                     costUpdate.price = cost.price
+                    costUpdate.active = true
                     EventBus.getDefault().post(costUpdate)
                 }
             }
