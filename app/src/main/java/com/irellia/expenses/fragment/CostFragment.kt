@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.fragment_cost.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.lang.Exception
 
 /**
  * Created by µðšţãƒâ ™ on 4/15/2019.
@@ -85,7 +86,11 @@ class CostFragment : BaseFragment() {
             }
             mPieChart.setData(monthTotal)
             mBarChart.setData()
-            pcCosts.notifyDataSetChanged()
+            try {
+                pcCosts.notifyDataSetChanged()
+            }catch (ex : Exception){
+                ex.printStackTrace()
+            }
             bcCosts.notifyDataSetChanged()
             checkList(mAllCost.size)
         }.start()

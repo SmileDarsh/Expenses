@@ -12,8 +12,8 @@ android {
         applicationId "com.irellia.expenses"
         minSdkVersion rootProject.ext.androidMinSdkVersion
         targetSdkVersion rootProject.ext.androidTargetSdkVersion
-        versionCode 5   // Don't forgot update new version before commit
-        versionName "2.3"
+        versionCode 6   // Don't forgot update new version before commit
+        versionName "2.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

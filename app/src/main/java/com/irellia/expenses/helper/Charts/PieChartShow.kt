@@ -71,9 +71,13 @@ class PieChartShow(
 
     private fun addCharPieData(data: PieData) {
         (mPieChart.context as Activity).runOnUiThread {
-            mPieChart.data = data
-            mPieChart.highlightValues(null)
-            mPieChart.invalidate()
+            try {
+                mPieChart.data = data
+                mPieChart.highlightValues(null)
+                mPieChart.invalidate()
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+            }
         }
     }
 
@@ -131,7 +135,7 @@ class PieChartShow(
         animateY()
     }
 
-    fun onChartClickable(enable : Boolean){
+    fun onChartClickable(enable: Boolean) {
         mPieChart.setTouchEnabled(enable)
     }
 

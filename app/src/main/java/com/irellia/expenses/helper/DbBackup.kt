@@ -14,10 +14,6 @@ const val DATABASE_NAME_WITH_FORMAT = "expensesOne.db"
 object DbBackup {
 
     fun exportDatabaseFile(context: Context) {
-        val f = File(Environment.getExternalStorageDirectory().path + "/Expenses")
-        if (!f.exists())
-            f.mkdir()
-
         try {
             copyDataFromOneToAnother(
                 context.getDatabasePath(DATABASE_NAME_WITH_FORMAT).path,

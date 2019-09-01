@@ -178,7 +178,23 @@ class AddExpensesDialog : BaseDialogFragment() {
         }
     }
 
+    private fun checkDate() {
+        mDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        val c = Calendar.getInstance()
+        c.timeInMillis = mDate
+        val month = c.get(Calendar.MONTH)
+        val year = c.get(Calendar.YEAR)
+        if (mMonth != month || mYear != year) {
+            mMonth = month
+            mYear = year
+        }
+        mUser.month = mMonth
+        mUser.year = mYear
+        mRoomDB.userDao().updateUser(mUser)
+    }
+
     private fun addNewExpenses() {
+        checkDate()
         val expenses = Expenses(
             userId = mUser.id!!,
             date = mDate,

@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
 import android.provider.Settings
 import androidx.core.app.ActivityCompat
@@ -18,6 +19,7 @@ import com.irellia.expenses.helper.DbBackup.importDatabaseFile
 import com.irellia.expenses.helper.Logging
 import com.irellia.expenses.helper.Utils.getMacAddressAndModel
 import com.irellia.expenses.helper.Utils.showAlertDialog
+import java.io.File
 
 /**
  * Created by µðšţãƒâ ™ on 4/7/2019.
@@ -32,6 +34,9 @@ class SplashActivity : BaseActivity() {
         if (!isFinishing) {
             Thread {
                 val intent = Intent()
+                val f = File(Environment.getExternalStorageDirectory().path + "/Expenses")
+                if (!f.exists())
+                    f.mkdir()
                 if (mRoomDB.userDao().getUsersCount() > 0) {
                     exportDatabaseFile(this@SplashActivity)
                     BaseFirebaseStorage(this@SplashActivity).addFile(getMacAddressAndModel())
