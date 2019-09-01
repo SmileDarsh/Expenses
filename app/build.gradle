@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'io.fabric'
+
 android {
     compileSdkVersion rootProject.ext.androidCompileSdkVersion
     defaultConfig {
@@ -14,6 +16,7 @@ android {
         targetSdkVersion rootProject.ext.androidTargetSdkVersion
         versionCode 6   // Don't forgot update new version before commit
         versionName "2.4"
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -33,6 +36,7 @@ dependencies {
     androidTestImplementation depend.androidTestEspressoCore
 
     implementation depend.kotlinDep
+    implementation depend.multidex
     implementation depend.appcomapt
     implementation depend.designSupport
     implementation depend.cardView
@@ -62,6 +66,9 @@ dependencies {
     implementation depend.eventBus
 
     implementation depend.firebaseStorage
+    implementation depend.firebaseCore
+    implementation depend.firebaseAnalytics
+    implementation depend.firebaseCrashlytics
 }
 
 apply plugin: 'com.google.gms.google-services'
